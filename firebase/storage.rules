@@ -1,0 +1,18 @@
+rules_version = '2';
+
+// Replays are private to their owner. JSON only, max 10 MB.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /replays/{uid}/{file} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType == 'application/json'
+        && file.matches('[A-Za-z0-9-]+\\.json');
+      allow update: if false;
+    }
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

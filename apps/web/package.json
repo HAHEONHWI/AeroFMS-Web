@@ -1,0 +1,48 @@
+{
+  "name": "@aerofms/web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@aerofms/aircraft": "workspace:*",
+    "@aerofms/cloud": "workspace:*",
+    "@aerofms/core": "workspace:*",
+    "@aerofms/i18n": "workspace:*",
+    "@aerofms/navigation": "workspace:*",
+    "@aerofms/shared": "workspace:*",
+    "@aerofms/simulation": "workspace:*",
+    "@aerofms/training": "workspace:*",
+    "@aerofms/ui": "workspace:*",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@tanstack/react-query": "^5.104.0",
+    "firebase": "^12.19.0",
+    "i18next": "^26.0.0",
+    "immer": "^11.1.0",
+    "maplibre-gl": "^5.24.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-i18next": "^17.0.0",
+    "react-router-dom": "^7.9.0",
+    "sql.js": "^1.13.0",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "@types/geojson": "^7946.0.16",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/sql.js": "^1.4.9",
+    "@vitejs/plugin-react": "^6.0.0",
+    "tailwindcss": "^4.1.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0",
+    "vite-plugin-pwa": "^1.3.0"
+  }
+}

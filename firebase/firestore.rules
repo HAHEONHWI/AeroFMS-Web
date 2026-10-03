@@ -1,0 +1,127 @@
+rules_version = '2';
+
+// AeroFMS Firestore Security Rules.
+// - Users can only read/write their own private data under users/{uid}.
+// - Scenarios: owner has full control; PUBLIC is listable, UNLISTED readable by id/share code.
+// - Share codes are written only by Cloud Functions (Admin SDK bypasses rules).
+// - Roles come from custom claims (request.auth.token.instructor/admin), never from client data.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isUser(uid) { return signedIn() && request.auth.uid == uid; }
+    function isAdmin() { return signedIn() && request.auth.token.admin == true; }
+    function str(v, max) { return v is string && v.size() <= max; }
+    function num(v) { return v is int || v is float; }
+
+    match /users/{uid} {
+      allow read: if isUser(uid);
+      allow create, update: if isUser(uid)
+        && request.resource.data.keys().hasOnly(['displayName', 'updatedAt'])
+        && str(request.resource.data.displayName, 40)
+        && num(request.resource.data.updatedAt);
+      allow delete: if false;
+
+      match /aircraftSessions/{sessionId} {
+        allow read, delete: if isUser(uid);
+        allow create, update: if isUser(uid)
+          && request.resource.data.keys().hasOnly(['aircraftId', 'name', 'origin', 'destination', 'stateJson', 'updatedAt', 'deviceId'])
+          && str(request.resource.data.aircraftId, 16)
+          && str(request.resource.data.name, 60)
+          && str(request.resource.data.stateJson, 950000)
+          && num(request.resource.data.updatedAt);
+      }
+
+      match /trainingProgress/{lessonId} {
+        allow read, delete: if isUser(uid);
+        allow create, update: if isUser(uid)
+          && request.resource.data.keys().hasOnly(['status', 'bestScore', 'lastScore', 'attempts', 'completedAt', 'updatedAt'])
+          && request.resource.data.status in ['NOT_STARTED', 'IN_PROGRESS', 'COMPLETED']
+          && request.resource.data.bestScore is int && request.resource.data.bestScore >= 0 && request.resource.data.bestScore <= 100
+          && request.resource.data.attempts is int;
+      }
+
+      match /flightPlans/{planId} {
+        allow read, delete: if isUser(uid);
+        allow create, update: if isUser(uid)
+          && request.resource.data.keys().hasOnly(['name', 'aircraftId', 'planJson', 'updatedAt'])
+          && str(request.resource.data.name, 80)
+          && str(request.resource.data.planJson, 500000);
+      }
+
+      match /replays/{replayId} {
+        allow read, delete: if isUser(uid);
+        allow create: if isUser(uid)
+          && request.resource.data.keys().hasOnly(['sessionId', 'title', 'aircraftId', 'actionCount', 'storagePath', 'createdAt'])
+          && request.resource.data.storagePath == 'replays/' + uid + '/' + replayId + '.json';
+      }
+    }
+
+    match /publicProfiles/{uid} {
+      allow read: if signedIn();
+      allow create, update: if isUser(uid)
+        && request.resource.data.keys().hasOnly(['displayName', 'updatedAt'])
+        && str(request.resource.data.displayName, 40);
+      allow delete: if false;
+    }
+
+    match /scenarios/{scenarioId} {
+      function data() { return resource.data; }
+      function isOwner() { return signedIn() && resource.data.ownerUid == request.auth.uid; }
+      function validScenario() {
+        let d = request.resource.data;
+        return d.keys().hasOnly(['ownerUid', 'authorName', 'title', 'description', 'aircraftId', 'difficulty', 'language', 'visibility', 'shareCode', 'dataJson', 'createdAt', 'updatedAt'])
+          && d.ownerUid == request.auth.uid
+          && str(d.title, 120) && str(d.description, 2000) && str(d.authorName, 40)
+          && d.difficulty in ['EASY', 'MEDIUM', 'HARD']
+          && d.language in ['ko', 'en']
+          && d.visibility in ['PRIVATE', 'UNLISTED', 'PUBLIC']
+          && str(d.dataJson, 200000);
+      }
+
+      // get: public/unlisted for anyone (share code acts as the capability), private for owner.
+      allow get: if data().visibility in ['PUBLIC', 'UNLISTED'] || isOwner() || isAdmin();
+      // list: only public scenarios, or the caller's own.
+      allow list: if resource.data.visibility == 'PUBLIC' || (signedIn() && resource.data.ownerUid == request.auth.uid);
+      allow create: if signedIn() && validScenario() && request.resource.data.shareCode == null;
+      // shareCode can only be changed by Cloud Functions.
+      allow update: if isOwner() && validScenario() && request.resource.data.shareCode == resource.data.shareCode;
+      allow delete: if isOwner() || isAdmin();
+
+      match /attempts/{attemptId} {
+        function scenario() { return get(/databases/$(database)/documents/scenarios/$(scenarioId)).data; }
+        allow read: if signedIn() && (resource.data.uid == request.auth.uid || scenario().ownerUid == request.auth.uid);
+        allow create: if signedIn()
+          && scenario().visibility in ['PUBLIC', 'UNLISTED']
+          && request.resource.data.keys().hasOnly(['uid', 'displayName', 'score', 'correctInputs', 'incorrectInputs', 'hintsUsed', 'timeSec', 'completionPct', 'createdAt'])
+          && request.resource.data.uid == request.auth.uid
+          && str(request.resource.data.displayName, 40)
+          && request.resource.data.score is int && request.resource.data.score >= 0 && request.resource.data.score <= 100
+          && request.resource.data.completionPct is int && request.resource.data.completionPct >= 0 && request.resource.data.completionPct <= 100;
+        allow update: if false;
+        allow delete: if signedIn() && (resource.data.uid == request.auth.uid || scenario().ownerUid == request.auth.uid);
+      }
+    }
+
+    match /shareCodes/{code} {
+      allow get: if true;
+      allow list, write: if false;
+    }
+
+    match /sharedFlightPlans/{id} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['ownerUid', 'name', 'planJson', 'createdAt'])
+        && request.resource.data.ownerUid == request.auth.uid
+        && str(request.resource.data.planJson, 500000);
+      allow delete: if signedIn() && resource.data.ownerUid == request.auth.uid;
+      allow update: if false;
+    }
+
+    // Everything else is denied.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

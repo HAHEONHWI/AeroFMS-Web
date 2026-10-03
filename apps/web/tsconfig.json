@@ -1,0 +1,47 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": [
+      "vite/client"
+    ],
+    "noEmit": true,
+    "paths": {
+      "@aerofms/shared": [
+        "../../packages/shared/src/index.ts"
+      ],
+      "@aerofms/navigation": [
+        "../../packages/navigation/src/index.ts"
+      ],
+      "@aerofms/core": [
+        "../../packages/core/src/index.ts"
+      ],
+      "@aerofms/aircraft": [
+        "../../packages/aircraft/src/index.ts"
+      ],
+      "@aerofms/simulation": [
+        "../../packages/simulation/src/index.ts"
+      ],
+      "@aerofms/training": [
+        "../../packages/training/src/index.ts"
+      ],
+      "@aerofms/i18n": [
+        "../../packages/i18n/src/index.ts"
+      ],
+      "@aerofms/ui": [
+        "../../packages/ui/src/index.ts"
+      ],
+      "@aerofms/cloud": [
+        "../../packages/cloud/src/index.ts"
+      ],
+      "@/*": [
+        "../../apps/web/src/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "vite.config.ts"
+  ]
+}

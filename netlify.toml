@@ -1,0 +1,35 @@
+# Netlify deployment for the AeroFMS web app (monorepo root = this directory).
+[build]
+  base = "."
+  command = "corepack enable && pnpm install --frozen-lockfile && pnpm --filter @aerofms/web build"
+  publish = "apps/web/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Firebase web config (public, protected by Security Rules + App Check) is set in
+  # Netlify → Site settings → Environment variables: VITE_FIREBASE_* (see apps/web/.env.example).
+
+# Single page application routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://apis.google.com https://www.googletagmanager.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://www.googletagmanager.com https://lh3.googleusercontent.com; font-src 'self' data:; connect-src 'self' ws://localhost:* ws://127.0.0.1:* http://localhost:* https://*.googleapis.com https://*.firebaseio.com https://*.cloudfunctions.net https://firebaseremoteconfig.googleapis.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://firebasestorage.googleapis.com https://*.tile.openstreetmap.org; frame-src https://*.firebaseapp.com https://www.google.com https://recaptcha.google.com; worker-src 'self' blob:"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

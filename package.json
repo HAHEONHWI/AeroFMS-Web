@@ -1,0 +1,37 @@
+{
+  "name": "aerofms-web-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "AeroFMS - FMC & MCDU Simulator (Web, shared core, Firebase, Connector)",
+  "type": "module",
+  "packageManager": "pnpm@10.12.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @aerofms/web dev",
+    "build": "pnpm --filter @aerofms/web build",
+    "typecheck": "tsc -p tsconfig.json --noEmit && pnpm -r --if-present typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:i18n": "tsx scripts/check-i18n.ts",
+    "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm check:i18n && pnpm build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "@types/node": "^24.0.0",
+    "eslint": "^9.39.0",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.6.2",
+    "sql.js": "^1.13.0",
+    "@types/sql.js": "^1.4.9",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.0",
+    "vitest": "^3.2.4"
+  }
+}

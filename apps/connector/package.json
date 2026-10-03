@@ -1,0 +1,29 @@
+{
+  "name": "@aerofms/connector",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AeroFMS Connector: bridges MSFS (SimConnect) and X-Plane (UDP) to AeroFMS Web/Android over a local WebSocket.",
+  "type": "module",
+  "bin": {
+    "aerofms-connector": "./dist/aerofms-connector.mjs"
+  },
+  "scripts": {
+    "dev": "tsx src/main.ts",
+    "build": "node build.mjs",
+    "start": "node dist/aerofms-connector.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@aerofms/core": "workspace:*",
+    "@aerofms/shared": "workspace:*",
+    "@aerofms/simulation": "workspace:*",
+    "bonjour-service": "^1.4.4",
+    "node-simconnect": "^4.2.0",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/ws": "^8.18.2",
+    "esbuild": "^0.28.2"
+  }
+}

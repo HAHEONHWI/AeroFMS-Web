@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/600.css';
+
+@theme {
+  --color-bg: #0b1018;
+  --color-bg-elevated: #111824;
+  --color-surface: #161f2d;
+  --color-surface-raised: #1c2738;
+  --color-line: #263247;
+  --color-line-strong: #34435d;
+  --color-fg: #e8edf4;
+  --color-fg-muted: #9aa7ba;
+  --color-fg-faint: #6b7890;
+  --color-accent: #4fb3a9;
+  --color-accent-strong: #3a9c92;
+  --color-info: #6ea8fe;
+  --color-warn: #f2b544;
+  --color-danger: #ef6461;
+  --color-ok: #5ccb8a;
+  --color-cdu-screen: #05080d;
+  --color-cdu-bezel: #1a212c;
+  --color-cdu-key: #2a3240;
+  --color-cdu-key-pressed: #3a4558;
+  --color-cdu-key-border: #3b4659;
+  --color-cdu-white: #edf1f7;
+  --color-cdu-green: #4fe08a;
+  --color-cdu-cyan: #5ad7f0;
+  --color-cdu-magenta: #f07be6;
+  --color-cdu-amber: #f6b23d;
+  --color-cdu-yellow: #f2e25a;
+  --color-cdu-red: #f05a5a;
+  --color-cdu-gray: #8792a3;
+  --color-cdu-blue: #6ea8fe;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --breakpoint-tablet: 48rem;
+  --breakpoint-desktop: 68.75rem;
+  --breakpoint-wide: 93.75rem;
+}
+
+:root[data-theme='dim'] {
+  --color-bg: #151b24;
+  --color-bg-elevated: #1a2230;
+  --color-surface: #1f2938;
+  --color-surface-raised: #263244;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.cdu-font {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+  font-feature-settings: 'zero' 1;
+}
+
+.maplibregl-ctrl-attrib {
+  font-size: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

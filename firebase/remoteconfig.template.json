@@ -1,0 +1,17 @@
+{
+  "parameters": {
+    "min_supported_version": { "defaultValue": { "value": "1.0.0" }, "description": "Minimum app version; older clients show an update prompt." },
+    "notice_ko": { "defaultValue": { "value": "" }, "description": "Korean notice banner" },
+    "notice_en": { "defaultValue": { "value": "" }, "description": "English notice banner" },
+    "maintenance_message": { "defaultValue": { "value": "" }, "description": "Cloud maintenance message (emulator keeps working offline)" },
+    "nav_db_available": { "defaultValue": { "value": "true" } },
+    "feature_cloud_sync": { "defaultValue": { "value": "true" } },
+    "feature_scenario_sharing": { "defaultValue": { "value": "true" } },
+    "feature_instructor_mode": { "defaultValue": { "value": "true" } },
+    "feature_simulator_connector": { "defaultValue": { "value": "true" } },
+    "ads_enabled": { "defaultValue": { "value": "false" }, "description": "Master switch for AdMob (Android). Keep false until monetization is approved." },
+    "ads_placements": { "defaultValue": { "value": "HOME_BANNER,LIST_BANNER,RESULT_INTERSTITIAL,REWARDED_HINT" } },
+    "ads_interstitial_interval_sec": { "defaultValue": { "value": "300" } },
+    "ads_interstitial_max_per_session": { "defaultValue": { "value": "3" } }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@aerofms/cloud",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@aerofms/shared": "workspace:*",
+    "@aerofms/core": "workspace:*",
+    "@aerofms/training": "workspace:*",
+    "firebase": "^12.19.0"
+  }
+}

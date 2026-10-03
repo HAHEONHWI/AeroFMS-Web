@@ -1,0 +1,1580 @@
+{
+  "app": {
+    "name": "AeroFMS",
+    "fullName": "AeroFMS - FMC & MCDU Simulator",
+    "tagline": "FMC & MCDU Simulator",
+    "disclaimerShort": "For flight simulation and educational purposes only. Not for real-world flight planning, navigation, or aircraft operation.",
+    "skipToContent": "Skip to content",
+    "loading": "Loading…",
+    "offline": "Offline – cloud features are paused. The emulator keeps working.",
+    "online": "Back online",
+    "readOnlyTab": "AeroFMS is open in another tab – changes in this tab are not saved.",
+    "dataRecovered": "Local data could not be read and was reset. A backup copy was kept."
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "emulator": "Emulator",
+    "academy": "Academy",
+    "scenarios": "Scenarios",
+    "map": "Map",
+    "replay": "Replay",
+    "download": "Android app",
+    "settings": "Settings",
+    "account": "Account",
+    "help": "Help",
+    "instructor": "Instructor",
+    "profile": "Profile",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "disclaimer": "Simulation only",
+    "menu": "Menu",
+    "closeMenu": "Close menu",
+    "openMenu": "Open menu"
+  },
+  "common": {
+    "start": "Start",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saved": "Saved",
+    "delete": "Delete",
+    "rename": "Rename",
+    "duplicate": "Duplicate",
+    "reset": "Reset",
+    "export": "Export",
+    "import": "Import",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "done": "Done",
+    "retry": "Retry",
+    "search": "Search",
+    "searchPlaceholder": "Search airports, waypoints, navaids, airways",
+    "noResults": "No results",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "on": "On",
+    "off": "Off",
+    "copy": "Copy",
+    "copied": "Copied",
+    "share": "Share",
+    "open": "Open",
+    "create": "Create",
+    "edit": "Edit",
+    "learnMore": "Learn more",
+    "all": "All",
+    "none": "None",
+    "minutes_one": "{{count}} min",
+    "minutes_other": "{{count}} min",
+    "points_one": "{{count}} pt",
+    "points_other": "{{count}} pts",
+    "required": "Required",
+    "optional": "Optional",
+    "version": "Version {{version}}",
+    "error": "Something went wrong",
+    "errorDetail": "The error was recorded. Your FMC sessions are stored locally and were not affected.",
+    "reload": "Reload",
+    "goHome": "Go to home",
+    "notFound": "Page not found",
+    "notFoundDetail": "The page you are looking for does not exist.",
+    "signInRequired": "Sign in to use this feature.",
+    "cloudUnavailable": "Cloud features are not configured for this build.",
+    "networkRequired": "This feature needs an internet connection."
+  },
+  "difficulty": {
+    "EASY": "Easy",
+    "MEDIUM": "Medium",
+    "HARD": "Hard"
+  },
+  "level": {
+    "BEGINNER": "Beginner",
+    "INTERMEDIATE": "Simulator user",
+    "ADVANCED": "Advanced",
+    "BEGINNERDesc": "Step-by-step guidance and detailed explanations.",
+    "INTERMEDIATEDesc": "Short hints, explanations on request.",
+    "ADVANCEDDesc": "Minimal guidance. The emulator is never limited."
+  },
+  "phase": {
+    "PREFLIGHT": "Preflight",
+    "TAXI": "Taxi",
+    "TAKEOFF": "Takeoff",
+    "CLIMB": "Climb",
+    "CRUISE": "Cruise",
+    "DESCENT": "Descent",
+    "APPROACH": "Approach",
+    "GO_AROUND": "Go-around",
+    "LANDED": "Landed"
+  },
+  "home": {
+    "heroTitle": "Learn and operate multiple aircraft FMC and MCDU systems.",
+    "heroSubtitle": "A functional Boeing FMC and Airbus MCDU emulator with a visual flight plan, guided training, replay and offline operation.",
+    "startWeb": "Start on the web",
+    "androidApp": "Android app",
+    "continueSession": "Continue session",
+    "continueTitle": "Continue",
+    "recentSession": "Recent session",
+    "noSession": "No session yet. Pick an aircraft to start.",
+    "quickStart": "Quick start",
+    "allAircraft": "All aircraft",
+    "recentPlans": "Recent flight plans",
+    "recommendedLesson": "Recommended lesson",
+    "recentScenarios": "Scenarios",
+    "navDbStatus": "Navigation database",
+    "simulatorStatus": "Simulator connection",
+    "featuresTitle": "One platform, every step of FMC programming",
+    "features": {
+      "multiAircraft": "Multi-aircraft",
+      "multiAircraftDesc": "Boeing 737/777/787 FMC and Airbus A320/A330/A350 FMGS, each with its own pages and logic.",
+      "offline": "Offline first",
+      "offlineDesc": "The emulator, navigation database, training and replay work without an internet connection.",
+      "training": "Interactive training",
+      "trainingDesc": "Guided lessons on the real emulator and a Mistake Analyzer that explains every error.",
+      "visual": "Visual flight plan",
+      "visualDesc": "The map is drawn from the same flight plan state as the CDU – discontinuities, holds, T/C and T/D included.",
+      "replay": "Replay",
+      "replayDesc": "Every key press is recorded. Scrub the timeline and restore any FMC state.",
+      "companion": "Simulator companion",
+      "companionDesc": "Connect to X-Plane or MSFS through the AeroFMS Connector on your local network."
+    }
+  },
+  "aircraft": {
+    "select": "Select aircraft",
+    "manufacturer": "Manufacturer",
+    "model": "Aircraft",
+    "system": "System",
+    "engine": "Engine",
+    "start": "Start",
+    "current": "Current aircraft",
+    "switchTitle": "Switch aircraft",
+    "switchQuestion": "Save the current {{from}} {{system}} session and switch to {{to}}?",
+    "saveAndSwitch": "Save and switch",
+    "switchWithoutSaving": "Switch without saving",
+    "fidelityTitle": "Simulation notes",
+    "quickStartBadge": "Quick start"
+  },
+  "fidelity": {
+    "performanceTraining": "Performance figures come from a training model, not certified aircraft data.",
+    "demoNavData": "Navigation data is a synthetic demo dataset.",
+    "noDatalink": "Datalink (ACARS/CPDLC) is not simulated.",
+    "noRte2": "RTE 2 is not available in this version.",
+    "mfdCduGeneric": "The 787 CDU is shown in a generic CDU layout.",
+    "a350MfdTextMode": "The A350 MFD is simulated in a text-based layout using FMS pages and a KCCU-style keyboard."
+  },
+  "session": {
+    "title": "Sessions",
+    "new": "New session",
+    "newEmpty": "Empty FMC",
+    "newAtAirport": "Start at airport",
+    "airportPlaceholder": "ICAO, e.g. RKSI",
+    "continue": "Continue",
+    "rename": "Rename session",
+    "renamePrompt": "Session name",
+    "reset": "Reset session",
+    "resetConfirm": "Reset this session? The FMC returns to its power-up state and the replay history is cleared.",
+    "delete": "Delete session",
+    "deleteConfirm": "Delete this session permanently?",
+    "duplicate": "Duplicate",
+    "export": "Export session",
+    "import": "Import session",
+    "importError": "This file is not a valid AeroFMS session.",
+    "corrupted": "This session could not be loaded because its saved data is damaged.",
+    "corruptedAction": "Start a new session",
+    "updated": "Updated {{time}}",
+    "actions_one": "{{count}} action",
+    "actions_other": "{{count}} actions",
+    "empty": "No sessions for this aircraft yet."
+  },
+  "emulator": {
+    "title": "Emulator",
+    "classic": "Classic",
+    "modern": "Modern",
+    "viewMode": "View",
+    "layoutCduOnly": "CDU only",
+    "layoutSplit": "Split",
+    "layoutMap": "Map",
+    "focusHint": "Click the CDU to type with your keyboard.",
+    "keyboardActive": "Keyboard input active",
+    "keyboardShortcuts": "Keyboard: A–Z 0–9 . / type · Backspace CLR · Delete DEL/CLR · Enter EXEC · ←/→ page · ↑/↓ scroll · F1–F6 LSK left · Shift+F1–F6 LSK right",
+    "explain": "Explain",
+    "explainOn": "Explain mode on – select a line to learn about it",
+    "execPending": "EXEC pending",
+    "tmpy": "Temporary flight plan",
+    "screenLabel": "{{system}} display",
+    "keypadLabel": "{{system}} keyboard",
+    "lsk": "Line select key {{id}}",
+    "scratchpad": "Scratchpad",
+    "messages": "Messages",
+    "simulation": "Simulation",
+    "simStart": "Start simulation",
+    "simPause": "Pause",
+    "simResume": "Resume",
+    "simStop": "Stop",
+    "simReset": "Reset",
+    "simGoAround": "Go-around",
+    "simRate": "Rate",
+    "simStatus": {
+      "IDLE": "Ready",
+      "RUNNING": "Running",
+      "PAUSED": "Paused",
+      "COMPLETED": "Completed"
+    },
+    "simNeedsRoute": "Enter an origin, a destination and a route (and activate it on Boeing aircraft) before starting the simulation.",
+    "flightData": "Flight data",
+    "altitude": "Altitude",
+    "groundSpeed": "Ground speed",
+    "airspeed": "IAS / Mach",
+    "verticalSpeed": "Vertical speed",
+    "heading": "Heading",
+    "fuel": "Fuel",
+    "distanceToGo": "Distance to destination",
+    "activeWaypoint": "Active waypoint",
+    "phase": "Phase",
+    "lnav": "LNAV",
+    "vnav": "VNAV",
+    "xtk": "Cross-track",
+    "timeline": "Timeline",
+    "debug": "Debug",
+    "saveFlightPlan": "Save flight plan",
+    "exportFlightPlan": "Export flight plan",
+    "importFlightPlan": "Import flight plan",
+    "importHint": "Import a .areofms.json file or paste an ICAO route string such as \"RKSI BULTI1J BULTI Y711 OSN RKPK\".",
+    "importPaste": "Route string",
+    "importSuccess": "Flight plan imported",
+    "importFailed": "Import failed: {{reason}}",
+    "flightPlanSaved": "Flight plan saved",
+    "sessionSaved": "Session saved locally",
+    "panel": "Side panel"
+  },
+  "modern": {
+    "title": "Modern view",
+    "subtitle": "The same FMS data as the CDU, in a beginner-friendly layout.",
+    "route": "Flight plan",
+    "origin": "Origin",
+    "destination": "Destination",
+    "runway": "Departure runway",
+    "sid": "SID",
+    "star": "STAR",
+    "approach": "Approach",
+    "transition": "Transition",
+    "none": "None",
+    "addWaypoint": "Add to route",
+    "via": "Via (airway or DIRECT)",
+    "to": "To (waypoint)",
+    "add": "Add",
+    "directTo": "Direct to",
+    "deleteLeg": "Delete",
+    "discontinuity": "Route discontinuity",
+    "closeDiscontinuity": "Connect",
+    "performance": "Performance",
+    "cruiseAltitude": "Cruise altitude",
+    "costIndex": "Cost Index",
+    "zfw": "Zero fuel weight",
+    "fuel": "Fuel",
+    "reserves": "Reserve fuel",
+    "flightNumber": "Flight number",
+    "apply": "Apply",
+    "pending": "Changes pending",
+    "pendingBoeing": "Route changes are in MOD. Execute to make them active.",
+    "pendingAirbus": "A temporary flight plan exists. Insert it to make it active.",
+    "execute": "Execute (EXEC)",
+    "insert": "Insert",
+    "erase": "Erase",
+    "predictions": "Predictions",
+    "toc": "Top of climb",
+    "tod": "Top of descent",
+    "tripFuel": "Trip fuel",
+    "tripTime": "Trip time",
+    "distance": "Distance",
+    "unableCrz": "Cruise altitude not reachable on this route",
+    "destFuel": "Fuel at destination",
+    "legs": "Legs",
+    "noLegs": "No route yet. Set an origin and destination to begin.",
+    "activateRoute": "Activate route",
+    "position": "Initialize position at origin"
+  },
+  "map": {
+    "title": "Flight plan map",
+    "aircraft": "Aircraft",
+    "layers": "Layers",
+    "airways": "Airways",
+    "navaids": "Navaids",
+    "fixInfo": "FIX radials",
+    "basemap": "Online basemap",
+    "basemapHint": "Uses OpenStreetMap tiles when online. The flight plan map works offline without it.",
+    "fit": "Fit route",
+    "follow": "Follow aircraft",
+    "legend": "Legend",
+    "legendActive": "Active route",
+    "legendMod": "Modified / temporary",
+    "legendMissed": "Missed approach",
+    "legendHold": "Holding pattern",
+    "toc": "T/C",
+    "tod": "T/D",
+    "noRoute": "No flight plan to display yet.",
+    "selectHint": "Select a waypoint to highlight it on the FMC.",
+    "openEmulator": "Open in emulator"
+  },
+  "academy": {
+    "title": "Academy",
+    "subtitle": "Guided lessons run on the real emulator. Your inputs change the FMC exactly as in free practice.",
+    "categories": {
+      "FMC_BASICS": "FMC basics",
+      "ROUTE_PROGRAMMING": "Route programming",
+      "DEPARTURE": "Departure",
+      "ARRIVAL": "Arrival",
+      "PERFORMANCE": "Performance",
+      "VNAV": "VNAV",
+      "ROUTE_MODIFICATION": "Route modification",
+      "HOLDS": "Holds",
+      "ADVANCED": "Advanced",
+      "AIRBUS_FMGS": "Airbus FMGS",
+      "BOEING_FMC": "Boeing FMC"
+    },
+    "start": "Start lesson",
+    "restart": "Restart",
+    "completed": "Completed",
+    "inProgress": "In progress",
+    "notStarted": "Not started",
+    "bestScore": "Best score {{score}}",
+    "step": "Step {{current}} / {{total}}",
+    "hint": "Hint",
+    "why": "Why?",
+    "showAnswer": "Show answer",
+    "retry": "Try again",
+    "exit": "Exit lesson",
+    "lessonComplete": "Lesson complete",
+    "levelLabel": "Assistance level",
+    "progress": "Progress"
+  },
+  "training": {
+    "wrongPage": "This step needs the {{page}} page.",
+    "stepDone": "Done!",
+    "overlayTitle": "Training assistant",
+    "result": "Result",
+    "score": "Score",
+    "correctInputs": "Correct inputs",
+    "incorrectInputs": "Incorrect inputs",
+    "hintsUsed": "Hints used",
+    "time": "Time",
+    "completion": "Completion",
+    "objectives": "Objectives",
+    "briefing": "Briefing",
+    "mistakes": "Mistakes",
+    "noMistakes": "No mistakes – well done."
+  },
+  "mistake": {
+    "title": "What happened?",
+    "fmcSaid": "The FMC displayed",
+    "suggestions": "Did you mean",
+    "reenter": "Re-enter",
+    "hint": {
+      "generic": "Check the format shown on the line, then type the value again."
+    },
+    "notInDatabase": {
+      "title": "Not in the navigation database",
+      "body": "\"{{entry}}\" could not be found in the current navigation database.",
+      "why": "Identifiers must exist in the loaded database. Check the spelling, or that the airport/waypoint is part of the demo dataset."
+    },
+    "invalidEntry": {
+      "title": "The entry was rejected",
+      "body": "\"{{entry}}\" is not a valid value for this field ({{message}}).",
+      "why": "Each FMC field accepts a specific format and range."
+    },
+    "invalidDelete": {
+      "title": "This item cannot be deleted",
+      "body": "The selected line cannot be removed with DELETE/CLR.",
+      "whyBoeing": "On the Boeing FMC a route discontinuity is closed by entering a waypoint into the box prompts, not by deleting it. Origin and destination cannot be deleted either.",
+      "whyAirbus": "This line cannot be cleared on the MCDU. Origin and destination are changed on INIT or with NEW DEST."
+    },
+    "airwayNotConnected": {
+      "title": "Airway does not connect",
+      "body": "The airway does not pass through the previous waypoint.",
+      "why": "An airway can only be entered from a waypoint that lies on it. Add a DIRECT segment to a fix on the airway first."
+    },
+    "originFirst": {
+      "title": "Origin and destination needed",
+      "body": "Enter the origin and destination before this entry.",
+      "why": "Procedures and route segments are attached to the departure and arrival airports."
+    },
+    "notAllowed": {
+      "title": "Not allowed here",
+      "body": "This action is not possible on this line right now.",
+      "why": "The line has no function for the current entry, or the action does not apply to this item."
+    },
+    "outOfRange": {
+      "title": "Value out of range",
+      "body": "\"{{entry}}\" is outside the allowed range.",
+      "why": "The aircraft module limits each value to plausible operating values."
+    },
+    "pending": {
+      "title": "A modification is pending",
+      "body": "Finish the current modification first.",
+      "why": "Execute (EXEC/INSERT) or erase the pending change before starting a different one."
+    },
+    "format": {
+      "icao": "Enter a 4-letter ICAO airport code, e.g. RKSI.",
+      "runway": "Enter a runway such as 33L (RW prefix optional).",
+      "flightNumber": "Up to 10 letters or digits, e.g. KE1101.",
+      "via": "Enter an airway name (e.g. Y711) or DIRECT.",
+      "waypoint": "Enter a waypoint, navaid or airport identifier, a lat/lon (N3728.5E12626.4) or place/bearing/distance (OSN090/20).",
+      "boeingConstraint": "Speed/altitude, e.g. 250/10000, /FL240, /5000A, 220A240B.",
+      "airbusConstraint": "SPD/ALT, e.g. 250/, /+FL100, /-5000.",
+      "weight": "Weight in thousands of kg, e.g. 61.5 = 61,500 kg.",
+      "costIndex": "Cost Index is a whole number (Boeing 737: 0–500).",
+      "cruiseAltitude": "Flight level or feet, e.g. FL350, 350 or 35000.",
+      "wind": "Direction/speed, e.g. 270/45.",
+      "temperature": "Temperature in °C, e.g. +10 or -5.",
+      "latlon": "Format N3728.5E12626.4, or copy the position with the LSK.",
+      "flaps": "Use a flap setting valid for this aircraft.",
+      "speed": "Speed in knots, e.g. 142.",
+      "fromTo": "Enter ORIGIN/DESTINATION, e.g. RKSS/RJTT.",
+      "zfwCg": "ZFW/ZFWCG, e.g. 61.5/27.0.",
+      "holdInbound": "Inbound course/turn, e.g. 270/L."
+    },
+    "why": {
+      "icao": "Airports are identified by 4-letter ICAO codes in the FMC.",
+      "runway": "The runway must exist at the origin airport in the navigation database.",
+      "flightNumber": "Flight numbers may only contain letters and digits.",
+      "via": "VIA accepts an airway that passes through the previous waypoint, or DIRECT.",
+      "waypoint": "Waypoints must exist in the navigation database unless defined by coordinates.",
+      "boeingConstraint": "The right side of LEGS takes speed and altitude separated by a slash.",
+      "airbusConstraint": "The F-PLN right column uses SPD/ALT with + (at or above) and - (at or below).",
+      "weight": "Weights are entered in thousands of kilograms on this FMC.",
+      "costIndex": "The Cost Index range depends on the aircraft type.",
+      "cruiseAltitude": "The cruise altitude must be within the aircraft's certified ceiling.",
+      "wind": "Wind is entered as direction (true) and speed.",
+      "temperature": "Temperatures are entered in °C with an optional sign.",
+      "latlon": "Positions use degrees and decimal minutes.",
+      "flaps": "Only certified flap settings for the aircraft are accepted.",
+      "speed": "V-speeds must be plausible values in knots.",
+      "fromTo": "Origin and destination are entered together, separated by a slash.",
+      "zfwCg": "ZFW is in tonnes; CG in %MAC.",
+      "holdInbound": "Inbound course 0–360 and turn direction L or R."
+    }
+  },
+  "scenarios": {
+    "title": "Scenarios",
+    "subtitle": "Realistic programming tasks with objectives and a score.",
+    "builtIn": "Built-in",
+    "mine": "My scenarios",
+    "shared": "Community",
+    "enterCode": "Enter scenario code",
+    "codePlaceholder": "AERO-XXXXX",
+    "codeInvalid": "Enter a code in the format AERO-XXXXX.",
+    "codeNotFound": "No scenario found for this code.",
+    "join": "Open",
+    "create": "Create scenario",
+    "start": "Start scenario",
+    "objectives": "Objectives",
+    "briefing": "Briefing",
+    "aircraft": "Aircraft",
+    "route": "Route",
+    "attempts": "Attempts",
+    "bestScore": "Best score",
+    "shareCode": "Share code",
+    "copyLink": "Copy link",
+    "publish": "Share",
+    "unpublish": "Stop sharing",
+    "visibility": {
+      "PRIVATE": "Private",
+      "UNLISTED": "Unlisted (code only)",
+      "PUBLIC": "Public"
+    },
+    "loginToShare": "Sign in to share scenarios.",
+    "builder": {
+      "title": "Scenario builder",
+      "basic": "Basics",
+      "titleLabel": "Title",
+      "descriptionLabel": "Description",
+      "aircraft": "Aircraft",
+      "difficulty": "Difficulty",
+      "language": "Language",
+      "visibility": "Visibility",
+      "initialAirport": "Initial airport",
+      "flight": "Flight",
+      "origin": "Origin",
+      "destination": "Destination",
+      "route": "Route (airways/waypoints)",
+      "runway": "Runway",
+      "sid": "SID",
+      "star": "STAR",
+      "approach": "Approach",
+      "cruise": "Cruise altitude",
+      "fuel": "Fuel (kg)",
+      "weight": "ZFW (kg)",
+      "objectives": "Objectives",
+      "generateObjectives": "Generate objectives from flight",
+      "addObjective": "Add objective",
+      "objectiveText": "Objective text",
+      "objectiveType": "Check",
+      "objectiveValue": "Value",
+      "points": "Points",
+      "hints": "Hints",
+      "addHint": "Add hint",
+      "save": "Save scenario",
+      "saved": "Scenario saved",
+      "invalid": "Please complete the required fields ({{error}}).",
+      "test": "Test now"
+    },
+    "condition": {
+      "ORIGIN": "Origin is",
+      "DESTINATION": "Destination is",
+      "RUNWAY": "Departure runway is",
+      "SID": "SID is",
+      "STAR": "STAR is",
+      "APPROACH": "Approach is",
+      "ROUTE_CONTAINS": "Route contains (space separated)",
+      "POS_INITIALIZED": "Position initialized",
+      "PLAN_ACTIVE": "Route activated (no pending changes)",
+      "NO_DISCONTINUITY": "No discontinuity",
+      "TAKEOFF_SPEEDS_SET": "V-speeds entered",
+      "HOLD_AT": "Hold at waypoint",
+      "PERF_CRZ": "Cruise altitude (ft)",
+      "PERF_CI": "Cost Index entered",
+      "PERF_ZFW": "ZFW entered",
+      "PERF_FUEL": "Fuel entered"
+    },
+    "seoulBusan737": {
+      "title": "Seoul → Busan FMC programming",
+      "description": "Program a complete Boeing 737-800 FMC for the Incheon to Gimhae shuttle: position, route, SID/STAR, performance and takeoff data.",
+      "objectives": {
+        "posInit": "Initialize the IRS position (POS INIT)",
+        "originDest": "Enter origin RKSI and destination RKPK",
+        "route": "Build the route BULTI – Y711 – OSN – Y722 – KALOD",
+        "sid": "Select runway 33L and SID BULTI1J",
+        "star": "Select STAR KALOD1A and the ILS36L approach",
+        "perfInit": "Complete PERF INIT with cruise altitude FL250",
+        "takeoffRef": "Set takeoff flaps and V-speeds on TAKEOFF REF",
+        "activated": "Activate and execute a route without discontinuities"
+      },
+      "hints": {
+        "h1": "INIT REF opens POS INIT before the IRS is aligned. Use REF AIRPORT, copy the position with 2R and enter it at 4R.",
+        "h2": "On RTE page 2 enter BULTI as the first TO waypoint, then Y711 in VIA and OSN in TO.",
+        "h3": "After the approach, select the DOTOL transition so the STAR connects to the approach."
+      }
+    },
+    "gimpoHaneda320": {
+      "title": "Gimpo → Haneda on the A320neo",
+      "description": "Set up the FMGS for an international flight: INIT A/B, departure, airways through the LAT REV page, arrival and approach.",
+      "objectives": {
+        "init": "INIT A: RKSS/RJTT and CRZ FL370",
+        "fuel": "INIT B: ZFW and block fuel",
+        "departure": "Departure: runway 32R, SID OSN1E",
+        "airways": "Airways: OSN Y722 TOPAX G597 MIHOU Y20 CREAM",
+        "arrival": "Arrival: ILS34R via UMUKI, STAR CREAM1A",
+        "noDisco": "Final flight plan without discontinuity or temporary plan"
+      },
+      "hints": {
+        "h1": "FROM/TO is entered at 1R on INIT A, e.g. RKSS/RJTT.",
+        "h2": "Select the OSN waypoint on F-PLN to open LAT REV, then AIRWAYS> at 5R.",
+        "h3": "Lateral revisions create a yellow temporary plan – press INSERT* at 6R."
+      }
+    },
+    "busanJejuMax": {
+      "title": "Busan → Jeju on the 737 MAX 8",
+      "description": "A short domestic sector using the Y683 airway and an arrival to runway 25 at Jeju.",
+      "objectives": {
+        "originDest": "Origin RKPK, destination RKPC",
+        "departure": "Runway 18R with SID DOSAN1E",
+        "route": "Route DOSAN Y683 SAMDO",
+        "arrival": "STAR SAMDO1A and ILS25",
+        "perf": "Cruise FL230 and a Cost Index",
+        "activated": "Activated route without discontinuities"
+      },
+      "hints": {
+        "h1": "The SID ends at DOSAN – start the airway with VIA Y683 TO SAMDO.",
+        "h2": "SAMDO1A ends at SEOGU; select the ILS25 approach with the SEOGU transition."
+      }
+    },
+    "holdAtOsn737": {
+      "title": "Holding and route changes",
+      "description": "The route is already active. ATC asks you to hold at OSN, cross KALOD at a given altitude and monitor OSN with FIX INFO.",
+      "objectives": {
+        "hold": "Build and execute a hold at OSN",
+        "constraint": "Add an altitude constraint at KALOD",
+        "fix": "Show OSN on the FIX INFO page",
+        "clean": "No pending modification or discontinuity"
+      },
+      "hints": {
+        "h1": "Press HOLD, type OSN and enter it at the HOLD AT box prompt (6L), then EXEC.",
+        "h2": "On LEGS, type /11000 and press the right LSK next to KALOD, then EXEC."
+      }
+    }
+  },
+  "lessons": {
+    "fmcBasics737": {
+      "title": "FMC basics: scratchpad and line select keys",
+      "description": "Learn how data moves from the scratchpad to a field with the line select keys, and how CLR works.",
+      "steps": {
+        "openInitRef": "Press INIT REF to open the POS INIT page.",
+        "typeIcao": "Type RKSI on the keyboard. The letters appear in the scratchpad at the bottom.",
+        "typeIcaoHint": "The scratchpad is the bottom line of the display. Type R, K, S, I.",
+        "enterRefAirport": "Press LSK 2L to move RKSI into REF AIRPORT.",
+        "copyPosition": "Press LSK 2R to copy the airport position into the scratchpad.",
+        "copyPositionHint": "With an empty scratchpad, pressing a line select key next to data copies it.",
+        "setIrsPos": "Press LSK 4R to enter the position into SET IRS POS.",
+        "typeAbc": "Now practise correcting entries: type ABC.",
+        "clearOne": "Press CLR once to delete the last character.",
+        "clearOneHint": "A short CLR press removes one character.",
+        "clearAll": "Press and hold CLR to clear the whole scratchpad.",
+        "clearAllHint": "Hold CLR (or press Shift+Backspace) to clear everything.",
+        "routePage": "Press LSK 6R (ROUTE>) to go to the RTE page."
+      }
+    },
+    "routeProgramming737": {
+      "title": "Route programming: RKSI → RKPK",
+      "description": "Enter origin, destination, runway and an airway route on the RTE pages, then activate and execute it.",
+      "steps": {
+        "openRte": "Press the RTE key.",
+        "origin": "Type RKSI and press LSK 1L (ORIGIN).",
+        "originHint": "Boxes (□) mark required fields.",
+        "destination": "Type RKPK and press LSK 1R (DEST).",
+        "flightNumber": "Enter a flight number at LSK 2R, e.g. KE1101.",
+        "runway": "Enter runway 33L at LSK 3L.",
+        "runwayHint": "You can type 33L or RW33L.",
+        "nextPage": "Press NEXT PAGE to open RTE page 2 (VIA/TO).",
+        "direct": "Type BULTI and press LSK 1R. A TO entry with an empty VIA becomes DIRECT.",
+        "directHint": "TO is on the right side, VIA on the left.",
+        "airway1": "Enter airway Y711 at 2L, then OSN at 2R.",
+        "airway1Hint": "The airway must pass through the previous TO waypoint (BULTI).",
+        "airway2": "Enter Y722 at 3L and KALOD at 3R.",
+        "activate": "Press RTE and select ACTIVATE> (6R). The EXEC key lights up.",
+        "activateHint": "ACTIVATE is on RTE page 1 and every RTE page at 6R.",
+        "exec": "Press EXEC to make the route active.",
+        "legs": "Press LEGS to review the waypoint sequence."
+      }
+    },
+    "departure737": {
+      "title": "Departure: runway and SID",
+      "description": "Select a departure runway and SID on the DEPARTURES page and see how the SID joins the route.",
+      "steps": {
+        "depArr": "Press DEP ARR.",
+        "departures": "Select <DEP (LSK 1L) for RKSI.",
+        "runway": "Select runway 33L in the RUNWAYS column (right side).",
+        "runwayHint": "Runways are listed on the right. The list of SIDs is filtered by the selected runway.",
+        "sid": "Select SID BULTI1J in the SIDS column.",
+        "sidHint": "The SID ends at BULTI, which is also the first route waypoint – the FMC merges them.",
+        "legs": "Press LEGS and look at the SID legs, including the (1600) altitude leg.",
+        "activate": "Press RTE and ACTIVATE> (6R).",
+        "activateHint": "Then the EXEC light comes on.",
+        "exec": "Press EXEC."
+      }
+    },
+    "arrival737": {
+      "title": "Arrival: STAR, approach and transition",
+      "description": "Select a STAR and an approach for RKPK and connect them without a discontinuity.",
+      "steps": {
+        "depArr": "Press DEP ARR.",
+        "arrivals": "Select ARR> for RKPK (LSK 2R).",
+        "star": "Select STAR KALOD1A on the left.",
+        "starHint": "The STAR begins at KALOD, the last waypoint of the route.",
+        "approach": "Select approach ILS36L on the right.",
+        "approachHint": "The approach list is filtered by the STAR's runways.",
+        "transition": "Select the DOTOL approach transition.",
+        "transitionHint": "Without a transition the STAR (ending at DOTOL) and the approach (starting at TOSAN) are not connected.",
+        "legs": "Open LEGS and confirm there is no ROUTE DISCONTINUITY.",
+        "legsHint": "Scroll with NEXT PAGE to see the whole arrival."
+      }
+    },
+    "performance737": {
+      "title": "Performance: PERF INIT and TAKEOFF REF",
+      "description": "Enter weights, fuel, Cost Index and cruise altitude, then compute takeoff speeds.",
+      "steps": {
+        "perfInit": "Press INIT REF – with the position set, the FMC opens PERF INIT.",
+        "perfInitHint": "INIT REF shows the next page that still needs data.",
+        "zfw": "Enter a zero fuel weight at 3L, e.g. 58.0 (= 58,000 kg).",
+        "zfwHint": "Weights are entered in thousands of kilograms.",
+        "fuel": "Enter fuel at 2L, e.g. 9.5.",
+        "fuelHint": "The gross weight (1L) is calculated as ZFW + fuel.",
+        "reserves": "Enter reserves at 4L, e.g. 2.5.",
+        "costIndex": "Enter Cost Index 30 at 5L.",
+        "costIndexHint": "A higher Cost Index means faster, less fuel-efficient speeds.",
+        "cruise": "Enter cruise altitude FL250 at 1R.",
+        "cruiseHint": "FL250, 250 and 25000 are all accepted.",
+        "n1Limit": "Press LSK 6R (N1 LIMIT>).",
+        "takeoffRef": "Press LSK 6R (TAKEOFF>).",
+        "flaps": "Enter flaps 5 at 1L.",
+        "vspeeds": "Press 1R, 2R and 3R to accept the computed V1, VR and V2.",
+        "vspeedsHint": "With an empty scratchpad the LSK moves the small computed value into the field."
+      }
+    },
+    "vnav737": {
+      "title": "VNAV pages: CLB, CRZ and DES",
+      "description": "Explore the climb, cruise and descent pages and make a speed change through the MOD/EXEC cycle.",
+      "steps": {
+        "climb": "Press CLB.",
+        "selectSpeed": "Type 280 and press LSK 2L to select a climb speed.",
+        "selectSpeedHint": "Changing a VNAV target on an active route creates a MOD page.",
+        "exec": "Press EXEC to accept the new climb speed.",
+        "cruise": "Press CRZ and review OPT/MAX altitudes and fuel at destination.",
+        "descent": "Press DES and find the predicted top of descent (TO T/D).",
+        "descentHint": "The T/D is also drawn on the map."
+      }
+    },
+    "routeModification737": {
+      "title": "Route modification: discontinuities, delete and erase",
+      "description": "Close a ROUTE DISCONTINUITY, delete a waypoint and undo a change with ERASE.",
+      "steps": {
+        "legs": "Press LEGS. Find the □□□□□ boxes below OSN – that is the discontinuity.",
+        "closeDisco": "Type RKPK and press the LSK next to the boxes.",
+        "closeDiscoHint": "Entering a downstream waypoint into the boxes connects the route to it.",
+        "exec": "Press EXEC.",
+        "execHint": "The route now continues from OSN directly to RKPK.",
+        "deleteWaypoint": "Press DEL, then the LSK next to NODLI.",
+        "deleteWaypointHint": "DELETE appears in the scratchpad. Selecting a waypoint removes it (a discontinuity takes its place).",
+        "erase": "Press <ERASE (6L) to cancel the modification.",
+        "eraseHint": "ERASE discards the MOD route and keeps the active route unchanged."
+      }
+    },
+    "holds737": {
+      "title": "Holding patterns",
+      "description": "Create a hold at a route waypoint and review it on the LEGS page and map.",
+      "steps": {
+        "hold": "Press HOLD.",
+        "holdAt": "Type OSN and press LSK 6L (HOLD AT).",
+        "holdAtHint": "The default hold uses the inbound course of the leg, right turns and 1.0 or 1.5 minute legs.",
+        "exec": "Press EXEC.",
+        "legs": "Press LEGS to see HOLD AT OSN."
+      }
+    },
+    "boeingExec": {
+      "title": "Boeing ACT / MOD / EXEC",
+      "description": "Understand why Boeing route changes are temporary until executed.",
+      "steps": {
+        "legs": "Press LEGS. The title shows ACT RTE 1 LEGS.",
+        "constraint": "Type /11000 and press the right LSK next to OSN.",
+        "constraintHint": "The title changes to MOD and the EXEC light comes on.",
+        "exec": "Press EXEC to make the constraint active.",
+        "execHint": "EXEC copies the modified route to the active route."
+      }
+    },
+    "airbusInit": {
+      "title": "Airbus INIT A and INIT B",
+      "description": "Initialize the A320neo FMGS: FROM/TO, flight number, IRS, Cost Index, cruise level and fuel.",
+      "steps": {
+        "init": "Press INIT.",
+        "fromTo": "Type RKSS/RJTT and press LSK 1R.",
+        "fromToHint": "Amber boxes are mandatory entries.",
+        "flightNumber": "Enter a flight number at 3L.",
+        "align": "Press INIT REQUEST* (2R) to align the IRS on the airport reference.",
+        "alignHint": "Datalink is not simulated; this aligns the IRS on the origin reference point.",
+        "costIndex": "Enter a Cost Index at 5L.",
+        "cruise": "Enter FL370 at 6L.",
+        "cruiseHint": "The format is FL370 or 370, optionally followed by /temperature.",
+        "initB": "Press → (NEXT PAGE) to open INIT B.",
+        "zfw": "Enter ZFW at 1R, e.g. 60.0.",
+        "zfwHint": "You can add the CG: 60.0/27.5.",
+        "block": "Enter block fuel at 2R, e.g. 8.8.",
+        "fpln": "Press F-PLN."
+      }
+    },
+    "airbusTemporary": {
+      "title": "Airbus lateral revisions and the temporary flight plan",
+      "description": "Select a departure through LAT REV and insert the temporary flight plan.",
+      "steps": {
+        "fpln": "Press F-PLN.",
+        "latRev": "Press LSK 1L next to RKSS to open LAT REV.",
+        "latRevHint": "The left LSKs on F-PLN open the lateral revision page for that waypoint.",
+        "departure": "Select <DEPARTURE (1L).",
+        "runway": "Select runway 32R.",
+        "runwayHint": "The temporary flight plan is shown in yellow.",
+        "sid": "Select SID OSN1E.",
+        "sidHint": "The list switches automatically from runways to SIDs.",
+        "insert": "Press INSERT* (6R).",
+        "insertHint": "INSERT* replaces the active flight plan with the temporary one.",
+        "airways": "Use LAT REV at OSN → AIRWAYS> to add Y722 to TOPAX, then INSERT*.",
+        "airwaysHint": "Open F-PLN, select OSN, then AIRWAYS> (5R)."
+      }
+    },
+    "advancedDirectTo": {
+      "title": "Direct-To and FIX INFO on the A320",
+      "description": "Use DIR TO with the temporary plan and place a reference fix with FIX INFO.",
+      "steps": {
+        "dir": "Press DIR.",
+        "select": "Select TOPAX from the F-PLN waypoint list (or type TOPAX and press 1L).",
+        "selectHint": "Use ↑/↓ to scroll the waypoint list.",
+        "insert": "Press DIR TO* (6R).",
+        "insertHint": "The aircraft now proceeds directly from its present position (T-P).",
+        "fixInfo": "Open F-PLN, select KALOD (LAT REV) and then FIX INFO> (1R).",
+        "fixInfoHint": "Scroll F-PLN with ↑ until KALOD is visible."
+      }
+    }
+  },
+  "explain": {
+    "title": "Explain",
+    "related": "Related",
+    "example": "Example",
+    "caution": "Caution",
+    "detail": "More detail",
+    "notFound": "No explanation is available for this line.",
+    "navDatabase": {
+      "title": "Navigation database",
+      "short": "The data set of airports, waypoints, airways and procedures the FMC uses.",
+      "detail": "Real FMCs load a database that is updated every 28 days (AIRAC cycle). AeroFMS uses a synthetic demo dataset stored in a local SQLite database.",
+      "caution": "The AeroFMS dataset is simplified and must never be used for real navigation."
+    },
+    "airac": {
+      "title": "AIRAC cycle",
+      "short": "The 28-day update cycle of aeronautical data.",
+      "detail": "Each cycle has an identifier and validity dates. The FMC warns when the database is out of date."
+    },
+    "refAirport": {
+      "title": "Reference airport",
+      "short": "The airport where the aircraft is parked, used for IRS alignment.",
+      "detail": "Entering the reference airport displays its coordinates, which can be copied to SET IRS POS.",
+      "example": "RKSI"
+    },
+    "irsPosition": {
+      "title": "IRS position",
+      "short": "The present position entered to align the inertial reference system.",
+      "detail": "IRS alignment needs the aircraft's initial position. Without it navigation cannot start.",
+      "example": "N3727.6E12626.4",
+      "caution": "Enter the actual parking position – an error here affects navigation."
+    },
+    "origin": {
+      "title": "Origin",
+      "short": "The departure airport (ICAO code).",
+      "detail": "Changing the origin clears the route because procedures belong to the origin airport.",
+      "example": "RKSI (Incheon)"
+    },
+    "destination": {
+      "title": "Destination",
+      "short": "The arrival airport (ICAO code).",
+      "detail": "Arrival procedures and approaches are selected for the destination.",
+      "example": "RKPK (Gimhae)"
+    },
+    "companyRoute": {
+      "title": "Company route",
+      "short": "A stored route identifier from the airline database.",
+      "detail": "AeroFMS has no airline database; save flight plans in the app instead."
+    },
+    "flightNumber": {
+      "title": "Flight number",
+      "short": "The flight identifier used for reports and progress pages.",
+      "detail": "Displayed on PROGRESS / F-PLN titles.",
+      "example": "KE1101"
+    },
+    "departureRunway": {
+      "title": "Departure runway",
+      "short": "The runway used for takeoff.",
+      "detail": "The runway determines which SIDs are available and where the route starts.",
+      "example": "33L"
+    },
+    "via": {
+      "title": "VIA",
+      "short": "How the route reaches the TO waypoint: an airway or DIRECT.",
+      "detail": "An airway must pass through the previous waypoint.",
+      "example": "Y711",
+      "caution": "Enter the VIA before the TO waypoint when using an airway."
+    },
+    "to": {
+      "title": "TO",
+      "short": "The waypoint where a route segment ends.",
+      "detail": "For an airway, the TO waypoint must be on that airway.",
+      "example": "OSN"
+    },
+    "airway": {
+      "title": "Airway",
+      "short": "A published route between waypoints.",
+      "detail": "Airways are designated by letters and numbers.",
+      "example": "Y722"
+    },
+    "sid": {
+      "title": "SID",
+      "short": "Standard Instrument Departure – a published departure route.",
+      "detail": "SIDs connect the runway to the enroute structure and include altitude/speed constraints.",
+      "example": "BULTI1J"
+    },
+    "star": {
+      "title": "STAR",
+      "short": "Standard Terminal Arrival Route.",
+      "detail": "STARs connect the enroute structure to the approach.",
+      "example": "KALOD1A"
+    },
+    "approach": {
+      "title": "Approach",
+      "short": "The procedure that leads to the runway.",
+      "detail": "Approaches have transitions that connect them to the STAR.",
+      "example": "ILS36L"
+    },
+    "legsWaypoint": {
+      "title": "LEGS waypoint",
+      "short": "A leg of the flight plan, in sequence.",
+      "detail": "Entering a waypoint here inserts it, connects the route to it, or (in flight on the active leg) flies directly to it.",
+      "caution": "New waypoints are followed by a ROUTE DISCONTINUITY."
+    },
+    "fplnWaypoint": {
+      "title": "F-PLN waypoint",
+      "short": "A waypoint on the Airbus flight plan page.",
+      "detail": "The left LSK opens the lateral revision page, the right LSK the vertical revision page."
+    },
+    "constraint": {
+      "title": "Speed / altitude constraint",
+      "short": "A speed or altitude restriction at a waypoint.",
+      "detail": "Constraints come from procedures or are entered by the crew; VNAV plans the path to meet them.",
+      "example": "250/10000, /FL240B"
+    },
+    "discontinuity": {
+      "title": "Route discontinuity",
+      "short": "A gap in the flight plan where the path is not defined.",
+      "detail": "LNAV cannot continue across a discontinuity. Close it by entering the next waypoint (Boeing) or clearing it (Airbus).",
+      "example": "OSN → □□□□□ → KALOD",
+      "caution": "Always check for discontinuities before departure."
+    },
+    "hold": {
+      "title": "Holding pattern",
+      "short": "A racetrack pattern flown over a fix to wait.",
+      "detail": "A hold is defined by the fix, inbound course, turn direction and leg length.",
+      "example": "OSN 090° R 1.0 MIN"
+    },
+    "holdInbound": {
+      "title": "Inbound course",
+      "short": "The course flown towards the hold fix.",
+      "detail": "Entered with the turn direction.",
+      "example": "270/L"
+    },
+    "holdLegTime": {
+      "title": "Leg time / distance",
+      "short": "Length of the outbound leg.",
+      "detail": "Usually 1 minute at or below 14,000 ft and 1.5 minutes above.",
+      "example": "1.5"
+    },
+    "directTo": {
+      "title": "Direct-To",
+      "short": "Fly straight from the present position to a waypoint.",
+      "detail": "Waypoints between the present position and the target are removed.",
+      "example": "DIR TO TOPAX",
+      "caution": "Check the new route before executing."
+    },
+    "nextWaypoint": {
+      "title": "Next waypoint",
+      "short": "Insert a waypoint after the revised one.",
+      "detail": "The new waypoint is followed by a discontinuity unless it is already in the route.",
+      "example": "SOSDO"
+    },
+    "newDestination": {
+      "title": "New destination",
+      "short": "Change the destination after the revised waypoint.",
+      "detail": "The route after the waypoint is replaced by a direct leg to the new destination.",
+      "example": "RJBB"
+    },
+    "grossWeight": {
+      "title": "Gross weight",
+      "short": "Total aircraft weight: ZFW + fuel.",
+      "detail": "Used for speeds, optimum altitude and fuel predictions.",
+      "example": "67.5 (= 67,500 kg)"
+    },
+    "zfw": {
+      "title": "Zero fuel weight",
+      "short": "Aircraft weight without usable fuel.",
+      "detail": "Comes from the load sheet.",
+      "example": "58.0"
+    },
+    "fuel": {
+      "title": "Fuel",
+      "short": "Fuel on board.",
+      "detail": "Used with ZFW to compute gross weight and predictions.",
+      "example": "9.5"
+    },
+    "blockFuel": {
+      "title": "Block fuel",
+      "short": "Total fuel at engine start.",
+      "detail": "Includes taxi, trip, reserves and extra fuel.",
+      "example": "8.8"
+    },
+    "taxiFuel": {
+      "title": "Taxi fuel",
+      "short": "Fuel used before takeoff.",
+      "detail": "Subtracted from block fuel to find takeoff weight."
+    },
+    "reserves": {
+      "title": "Reserve fuel",
+      "short": "Fuel that must remain at destination.",
+      "detail": "The FMC warns when predicted fuel falls below reserves.",
+      "example": "2.5"
+    },
+    "finalReserve": {
+      "title": "Final reserve",
+      "short": "Fuel for about 30 minutes of holding.",
+      "detail": "Part of the minimum fuel at destination."
+    },
+    "costIndex": {
+      "title": "Cost Index",
+      "short": "Cost Index represents a balance between time-related and fuel-related operating cost.",
+      "detail": "CI 0 flies the most fuel-efficient speeds; higher values fly faster at the cost of more fuel.",
+      "example": "30",
+      "caution": "Ranges differ: Boeing 737 0–500, Airbus 0–999."
+    },
+    "cruiseAltitude": {
+      "title": "Cruise altitude",
+      "short": "The planned cruise flight level.",
+      "detail": "VNAV plans the climb to this altitude.",
+      "example": "FL350"
+    },
+    "optimumAltitude": {
+      "title": "Optimum altitude",
+      "short": "The most economical altitude for the current weight.",
+      "detail": "Increases as fuel is burned."
+    },
+    "stepClimb": {
+      "title": "Step climb",
+      "short": "A planned climb to a higher cruise level during flight.",
+      "detail": "As weight decreases the optimum altitude rises.",
+      "example": "STEP TO FL370"
+    },
+    "cruiseWind": {
+      "title": "Cruise wind",
+      "short": "Forecast wind at cruise altitude.",
+      "detail": "Improves time and fuel predictions.",
+      "example": "270/45"
+    },
+    "isaDev": {
+      "title": "ISA deviation",
+      "short": "Temperature difference from the standard atmosphere.",
+      "detail": "Affects true airspeed and performance.",
+      "example": "+10"
+    },
+    "transitionAltitude": {
+      "title": "Transition altitude",
+      "short": "The altitude where altimeter settings change to standard.",
+      "detail": "Altitudes above it are shown as flight levels.",
+      "example": "14000 (Korea)"
+    },
+    "assumedTemperature": {
+      "title": "Assumed temperature",
+      "short": "A higher-than-actual temperature used to reduce takeoff thrust.",
+      "detail": "Reduces engine wear when the runway allows it.",
+      "example": "45",
+      "caution": "Must be higher than the outside air temperature."
+    },
+    "thrustRating": {
+      "title": "Thrust rating",
+      "short": "The selected takeoff thrust level.",
+      "detail": "Derated ratings reduce maximum thrust."
+    },
+    "takeoffFlaps": {
+      "title": "Takeoff flaps",
+      "short": "Flap setting for takeoff.",
+      "detail": "Changing flaps changes the V-speeds.",
+      "example": "5"
+    },
+    "v1": {
+      "title": "V1",
+      "short": "Takeoff decision speed.",
+      "detail": "Above V1 the takeoff is continued.",
+      "caution": "The values in AeroFMS come from a training model."
+    },
+    "vr": {
+      "title": "VR",
+      "short": "Rotation speed.",
+      "detail": "The speed at which the pilot rotates the aircraft."
+    },
+    "v2": {
+      "title": "V2",
+      "short": "Takeoff safety speed.",
+      "detail": "The minimum climb speed with one engine inoperative."
+    },
+    "cg": {
+      "title": "Centre of gravity",
+      "short": "Position of the centre of gravity in %MAC.",
+      "detail": "Used for stabilizer trim.",
+      "example": "25.0"
+    },
+    "accelerationHeight": {
+      "title": "Acceleration height",
+      "short": "Height where the aircraft accelerates and retracts flaps.",
+      "detail": "Typically 1000–3000 ft above the field.",
+      "example": "1000"
+    },
+    "thrustReduction": {
+      "title": "Thrust reduction",
+      "short": "Height where takeoff thrust is reduced to climb thrust.",
+      "detail": "Typically 1000–1500 ft.",
+      "example": "1500"
+    },
+    "landingWeight": {
+      "title": "Landing weight",
+      "short": "Predicted weight at landing.",
+      "detail": "Used for approach speeds."
+    },
+    "vref": {
+      "title": "VREF",
+      "short": "Reference landing speed for a flap setting.",
+      "detail": "The approach speed adds a wind correction to VREF.",
+      "example": "30/141"
+    },
+    "vapp": {
+      "title": "VAPP",
+      "short": "Final approach speed (Airbus).",
+      "detail": "VLS plus a wind correction."
+    },
+    "landingConfig": {
+      "title": "Landing configuration",
+      "short": "CONF 3 or FULL flaps for landing.",
+      "detail": "Affects VLS and VAPP."
+    },
+    "targetSpeed": {
+      "title": "Target speed",
+      "short": "The speed VNAV flies in this phase.",
+      "detail": "ECON speeds depend on the Cost Index; a selected speed overrides them.",
+      "example": "280/.78"
+    },
+    "managedSpeed": {
+      "title": "Managed speed",
+      "short": "Airbus FMS-computed speed.",
+      "detail": "Based on Cost Index, weight and constraints."
+    },
+    "speedRestriction": {
+      "title": "Speed restriction",
+      "short": "Speed limit below an altitude.",
+      "detail": "Usually 250 kt below 10,000 ft.",
+      "example": "250/10000"
+    },
+    "progress": {
+      "title": "Progress",
+      "short": "Distance, time and fuel to the next waypoints and destination.",
+      "detail": "Updated continuously during the simulation."
+    },
+    "fixInfo": {
+      "title": "FIX INFO",
+      "short": "Reference circles and radials around a fix on the map.",
+      "detail": "Useful for crossing restrictions and situational awareness.",
+      "example": "OSN 090/"
+    },
+    "offset": {
+      "title": "Lateral offset",
+      "short": "Fly parallel to the route.",
+      "detail": "Entered as L or R followed by the distance in NM.",
+      "example": "R2"
+    },
+    "fromTo": {
+      "title": "FROM/TO",
+      "short": "Origin and destination on the Airbus INIT page.",
+      "detail": "Creates the flight plan with both airports.",
+      "example": "RKSS/RJTT"
+    },
+    "alternate": {
+      "title": "Alternate",
+      "short": "The diversion airport.",
+      "detail": "Used for fuel planning.",
+      "example": "RJAA"
+    },
+    "qnh": {
+      "title": "QNH",
+      "short": "Altimeter setting at the destination.",
+      "detail": "In hPa or inHg.",
+      "example": "1013 or 29.92"
+    },
+    "minimums": {
+      "title": "Minimums",
+      "short": "Decision altitude/height for the approach.",
+      "detail": "MDA (baro) or DH (radio).",
+      "example": "200",
+      "caution": "Use the published minimums of the approach chart in real operations."
+    },
+    "bearingDistance": {
+      "title": "Bearing / distance",
+      "short": "Bearing and distance from the aircraft to a fix.",
+      "detail": "Shown on the Airbus PROG page.",
+      "example": "OSN"
+    },
+    "vnav": {
+      "title": "VNAV",
+      "short": "Vertical navigation – the FMS-computed vertical path.",
+      "detail": "VNAV plans climb, cruise and descent with constraints and speeds.",
+      "caution": "AeroFMS VNAV is a simulation approximation."
+    }
+  },
+  "help": {
+    "title": "Help center",
+    "subtitle": "Search FMC topics and AeroFMS features.",
+    "searchPlaceholder": "Search help",
+    "articles": {
+      "scratchpad": {
+        "title": "Scratchpad",
+        "body": "The scratchpad is the bottom line of the CDU/MCDU. Everything you type appears here first. Press a line select key to move the scratchpad content into the field next to it. With an empty scratchpad, pressing an LSK next to data copies it into the scratchpad. CLR deletes one character, holding CLR clears the line. Boeing: DEL places DELETE in the scratchpad to delete fields. Airbus: CLR on an empty scratchpad places CLR to clear fields."
+      },
+      "lsk": {
+        "title": "Line select keys (LSK)",
+        "body": "Six keys on each side of the display (1L–6L, 1R–6R) select the data line next to them. Their function depends on the page: entering data, copying data, selecting items from lists or opening other pages (prompts with < or >)."
+      },
+      "flightPlan": {
+        "title": "Flight plan",
+        "body": "A flight plan is a sequence of legs from the origin runway through SID, airways and STAR to the approach. Boeing builds it on the RTE pages and reviews it on LEGS; Airbus uses INIT and F-PLN with lateral revisions. The map always shows the same flight plan as the CDU."
+      },
+      "sid": {
+        "title": "SID",
+        "body": "A Standard Instrument Departure links the runway to the route. On Boeing select it on DEP ARR → DEPARTURES; on Airbus via LAT REV at the origin → DEPARTURE. If the SID ends at the first route waypoint, the FMC joins them automatically."
+      },
+      "star": {
+        "title": "STAR and approach",
+        "body": "A STAR links the route to the approach. Select an approach and the approach transition (VIA) that starts where the STAR ends, otherwise a discontinuity remains."
+      },
+      "vnav": {
+        "title": "VNAV",
+        "body": "VNAV calculates a vertical profile: climb to the cruise altitude (top of climb), cruise and a geometric descent from the top of descent that meets altitude constraints. In AeroFMS VNAV is a training approximation."
+      },
+      "costIndex": {
+        "title": "Cost Index",
+        "body": "The Cost Index weighs time cost against fuel cost. Low values save fuel, high values save time. The FMC derives ECON climb, cruise and descent speeds from it."
+      },
+      "discontinuity": {
+        "title": "Route discontinuity",
+        "body": "A discontinuity is a break in the flight plan. LNAV stops at it. Boeing: enter the next waypoint into the □□□□□ boxes. Airbus: CLR the F-PLN DISCONTINUITY line or insert a waypoint."
+      },
+      "hold": {
+        "title": "Holding",
+        "body": "Boeing: HOLD key, enter the fix at HOLD AT (6L) and EXEC. Airbus: LAT REV at a waypoint → HOLD, then INSERT. The simulation flies the racetrack until EXIT HOLD is armed."
+      },
+      "directTo": {
+        "title": "Direct-To",
+        "body": "Boeing: in flight, enter a waypoint on LEGS line 1 and EXEC. Airbus: DIR key, select or enter a waypoint, then DIR TO* to insert. A turn point (T-P) is created at the present position."
+      },
+      "execTemporary": {
+        "title": "EXEC vs temporary flight plan",
+        "body": "Boeing route changes on an active route create a MOD route and light EXEC. Press EXEC to activate or ERASE to discard. Airbus lateral revisions create a yellow temporary flight plan; INSERT* activates it, *ERASE discards it."
+      },
+      "simulation": {
+        "title": "Standalone simulation",
+        "body": "Start the simulation from the Simulation panel or from MENU → SIM CTL. The aircraft takes off from the departure runway, follows LNAV/VNAV and lands. Use rates 1×–16× and pause at any time."
+      }
+    }
+  },
+  "replay": {
+    "title": "Replay",
+    "subtitle": "Every FMC interaction is recorded. Scrub the timeline to restore any state.",
+    "sessions": "Recorded sessions",
+    "empty": "No recorded sessions yet.",
+    "play": "Play",
+    "pause": "Pause",
+    "speed": "Speed",
+    "position": "Action {{current}} / {{total}}",
+    "errors": "Errors",
+    "events": "Events",
+    "jumpTo": "Jump to",
+    "notAvailable": "No replay data is available for this session.",
+    "shareCloud": "Upload replay",
+    "uploaded": "Replay uploaded",
+    "event": {
+      "PAGE_OPEN": "Page",
+      "KEY_PRESS": "Key",
+      "LSK_PRESS": "LSK",
+      "SCRATCHPAD_CHANGED": "Scratchpad",
+      "FIELD_CHANGED": "Field",
+      "ROUTE_CHANGED": "Route",
+      "EXEC": "EXEC",
+      "INSERT": "INSERT",
+      "ERASE": "ERASE",
+      "ERROR": "Error",
+      "MESSAGE": "Message",
+      "SIMULATION_EVENT": "Simulation"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageSystem": "System default",
+    "languageKo": "한국어",
+    "languageEn": "English",
+    "theme": "Theme",
+    "themeDark": "Dark",
+    "themeDim": "Dim",
+    "themeSystem": "System",
+    "units": "Units",
+    "unitsAviation": "Aviation default (kg, ft, NM, kt, °C)",
+    "unitsMetric": "Metric",
+    "unitsImperial": "Imperial",
+    "unitsNote": "CDU/MCDU pages keep the units of the aircraft; the Modern view uses this setting.",
+    "navData": "Navigation data",
+    "navDataCycle": "Cycle",
+    "navDataSource": "Source",
+    "navDataReimport": "Restore navigation database",
+    "navDataReimported": "Navigation database restored",
+    "mapSettings": "Map",
+    "mapBasemap": "Online basemap",
+    "mapAirways": "Show airways",
+    "simulator": "Simulator connection",
+    "cloudSync": "Cloud sync",
+    "cloudSyncEnabled": "Sync sessions, flight plans and training progress",
+    "sound": "Key sound",
+    "soundOff": "Off",
+    "soundSoft": "Soft",
+    "soundClassic": "Classic-inspired",
+    "haptic": "Haptic feedback",
+    "trainingAssistance": "Training assistance",
+    "replay": "Replay recording",
+    "replayEnabled": "Record FMC interactions",
+    "privacy": "Privacy",
+    "analytics": "Share anonymous usage statistics",
+    "crashReports": "Send crash reports",
+    "about": "About",
+    "aboutText": "AeroFMS is an independent flight simulation training tool. It is not affiliated with Boeing, Airbus or any avionics manufacturer.",
+    "debug": "Developer tools",
+    "resetLocal": "Reset local data",
+    "resetLocalConfirm": "Delete all local sessions, settings and progress on this device?",
+    "dataManagement": "Data",
+    "storageInfo": "Local storage: SQLite on this device"
+  },
+  "account": {
+    "title": "Account",
+    "guest": "You are using AeroFMS as a guest. All features of the emulator work without an account.",
+    "benefits": "Sign in to sync sessions, flight plans and training progress between Android and the web, share scenarios and use instructor mode.",
+    "signInGoogle": "Continue with Google",
+    "signInEmail": "Sign in with email",
+    "signUpEmail": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "displayName": "Display name",
+    "signOut": "Sign out",
+    "signedInAs": "Signed in as {{name}}",
+    "syncStatus": "Sync",
+    "syncNow": "Sync now",
+    "lastSync": "Last sync: {{time}}",
+    "pending_one": "{{count}} change waiting to upload",
+    "pending_other": "{{count}} changes waiting to upload",
+    "syncError": "Sync failed: {{message}}",
+    "deleteAccount": "Delete account",
+    "deleteAccountText": "This permanently deletes your account and all cloud data (synced sessions, flight plans, progress, shared scenarios and replays). Local data on this device is kept unless you reset it in Settings.",
+    "deleteAccountConfirm": "Type DELETE to confirm",
+    "deleteAccountDone": "Your account has been deleted.",
+    "reauthRequired": "Please sign in again before deleting your account.",
+    "passwordReset": "Forgot password?",
+    "passwordResetSent": "Password reset email sent.",
+    "authError": {
+      "invalid": "Email or password is incorrect.",
+      "exists": "An account with this email already exists.",
+      "weak": "Use at least 8 characters for the password.",
+      "network": "Network error. Check your connection.",
+      "generic": "Sign-in failed. Please try again."
+    }
+  },
+  "instructor": {
+    "title": "Instructor",
+    "subtitle": "Create scenarios, share them with a code and follow student attempts.",
+    "notInstructor": "Instructor tools are available to accounts with the instructor role.",
+    "requestRole": "Instructor access is granted by the AeroFMS team (custom claim). Contact support to request it.",
+    "myScenarios": "My shared scenarios",
+    "students": "Attempts",
+    "completed": "Completed",
+    "inProgress": "In progress",
+    "averageScore": "Average score",
+    "errors": "Errors",
+    "time": "Time",
+    "student": "Student",
+    "noAttempts": "No attempts yet.",
+    "privacyNote": "Only a display name, scores, error counts and time are shared with instructors."
+  },
+  "onboarding": {
+    "welcomeTitle": "Welcome to AeroFMS",
+    "welcomeText": "Program multi-aircraft FMC and MCDU systems, learn with guided lessons and fly your flight plan in the built-in simulation.",
+    "simTitle": "Simulation and training only",
+    "simText": "AeroFMS is provided for flight simulation and educational purposes only. It must not be used for real-world flight planning, navigation or aircraft operation.",
+    "simAccept": "I understand",
+    "languageTitle": "Language",
+    "experienceTitle": "How familiar are you with FMCs?",
+    "aircraftTitle": "Choose your first aircraft",
+    "finish": "Start",
+    "skip": "Skip"
+  },
+  "download": {
+    "title": "AeroFMS for Android",
+    "subtitle": "The full emulator, offline navigation database and training on your phone or tablet.",
+    "playStore": "Get it on Google Play",
+    "comingSoon": "The Play Store listing will be available after release. Until then, use the web emulator – your account syncs both.",
+    "requirements": "Android 10 or later · phones, foldables and tablets",
+    "tablet": "Tablet cockpit mode with CDU, map and flight data side by side"
+  },
+  "features": {
+    "title": "Features",
+    "subtitle": "Everything in AeroFMS is built on one functional FMS core shared by the web and Android apps.",
+    "list": {
+      "emulator": {
+        "title": "Functional FMC / MCDU emulator",
+        "body": "Scratchpad, line select keys, page engine, EXEC/INSERT, messages and validation – all driven by the same state engine."
+      },
+      "aircraft": {
+        "title": "Eight aircraft, two philosophies",
+        "body": "Boeing ACT/MOD/EXEC (737 NG, 737 MAX, 777, 787) and Airbus temporary flight plans (A320ceo/neo, A330neo, A350)."
+      },
+      "navdb": {
+        "title": "Offline navigation database",
+        "body": "Airports, runways, waypoints, navaids, airways, SIDs, STARs and approaches stored in SQLite."
+      },
+      "map": {
+        "title": "Visual flight plan",
+        "body": "Route, discontinuities, holds, FIX rings, T/C and T/D on an offline map, linked both ways to the CDU."
+      },
+      "modern": {
+        "title": "Classic and Modern views",
+        "body": "A beginner-friendly view of the same FMS data – changes appear instantly on the CDU."
+      },
+      "training": {
+        "title": "Academy and Mistake Analyzer",
+        "body": "Guided lessons on the real emulator, explanations for every error, hints and scoring."
+      },
+      "scenarios": {
+        "title": "Scenarios and instructor mode",
+        "body": "Built-in and user-made scenarios, share codes and instructor dashboards."
+      },
+      "replay": {
+        "title": "Replay",
+        "body": "Event-sourced recording of every key press with a timeline and error markers."
+      },
+      "simulation": {
+        "title": "Standalone simulation",
+        "body": "Fly the programmed route with LNAV/VNAV at up to 16× speed."
+      },
+      "connector": {
+        "title": "Simulator companion",
+        "body": "AeroFMS Connector streams X-Plane / MSFS aircraft data over your local network."
+      }
+    }
+  },
+  "connector": {
+    "title": "Simulator connection",
+    "description": "Run AeroFMS Connector on the PC with X-Plane or MSFS, then connect from this device on the same network.",
+    "host": "Connector address",
+    "hostPlaceholder": "192.168.0.10:8787",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "search": "Search for simulators",
+    "searching": "Searching…",
+    "found": "Found",
+    "noneFound": "No connector found on this network.",
+    "sendRoute": "Send flight plan to simulator",
+    "status": {
+      "DISCONNECTED": "Not connected",
+      "CONNECTING": "Connecting…",
+      "CONNECTED": "Connected",
+      "WAITING_FOR_SIM": "Connected – waiting for simulator",
+      "ERROR": "Connection error"
+    },
+    "webNote": "Browsers can connect to a connector on the same computer (localhost). For other devices on the network, use the Android app.",
+    "simulator": "Simulator"
+  },
+  "legal": {
+    "lastUpdated": "Last updated: {{date}}",
+    "contact": "Contact: admin@heonhwi.dev",
+    "disclaimer": {
+      "title": "Simulation only",
+      "body": "AeroFMS is provided for flight simulation and educational purposes only. It is not certified avionics software and must not be used for real-world flight planning, navigation, performance calculation or aircraft operation.",
+      "points": [
+        "Navigation data is a simplified synthetic dataset and is not current or accurate.",
+        "Performance values (V-speeds, fuel, N1, optimum altitude) come from training approximations.",
+        "Aircraft behaviour is modelled on general FMS concepts; it is not a replica of any manufacturer's equipment.",
+        "Boeing, Airbus and aircraft model names are used only to identify the simulated aircraft types. AeroFMS is not affiliated with or endorsed by them."
+      ]
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "intro": "This policy explains which data AeroFMS processes, why, and how you can delete it. AeroFMS works without an account; most data never leaves your device.",
+      "sections": [
+        {
+          "title": "Data stored on your device",
+          "body": "FMC sessions, flight plans, settings, training progress, scenarios and replay recordings are stored locally (SQLite). They are not transmitted unless you sign in and enable cloud sync."
+        },
+        {
+          "title": "Account (Firebase Authentication)",
+          "body": "If you sign in with Google or email we process your email address, display name and a user ID through Google Firebase Authentication to provide your account."
+        },
+        {
+          "title": "Cloud sync (Cloud Firestore)",
+          "body": "When signed in, synced sessions, flight plans, training progress, replays and scenarios you create are stored in Google Cloud Firestore under your user ID. Shared scenarios are visible to people who have the share code or, if public, to all users."
+        },
+        {
+          "title": "Instructor mode",
+          "body": "When you attempt a scenario shared by an instructor, your display name, score, error count, completion and time are shared with that instructor. No other personal data is shared."
+        },
+        {
+          "title": "Analytics",
+          "body": "If enabled, anonymous usage events (for example: aircraft selected, lesson started) are collected with Firebase Analytics. Flight plans and FMC entries are never sent to analytics. You can disable analytics in Settings."
+        },
+        {
+          "title": "Crash reporting",
+          "body": "If enabled, technical crash information (device model, OS version, stack trace) is collected with Firebase Crashlytics to fix errors. You can disable it in Settings."
+        },
+        {
+          "title": "Location",
+          "body": "AeroFMS does not access your device location. The aircraft position is simulated."
+        },
+        {
+          "title": "Advertising",
+          "body": "The current version does not show ads. If ads are introduced in the Android app (Google AdMob), this policy will be updated before release, consent will be requested where required, and ads will never appear on the emulator, during training or replay."
+        },
+        {
+          "title": "Third-party services",
+          "body": "Google Firebase (Authentication, Firestore, Cloud Functions, Analytics, Crashlytics, Remote Config, App Check), Netlify (web hosting) and, when enabled, OpenStreetMap tiles for the online basemap."
+        },
+        {
+          "title": "Deleting your data",
+          "body": "Delete your account in Settings → Account → Delete account (app or web). This deletes your authentication record and all of your cloud data. Local data can be removed in Settings → Reset local data or by uninstalling the app."
+        },
+        {
+          "title": "Children",
+          "body": "AeroFMS is not directed at children under 13."
+        },
+        {
+          "title": "Contact",
+          "body": "Questions or requests: admin@heonhwi.dev"
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of use",
+      "sections": [
+        {
+          "title": "Simulation only",
+          "body": "AeroFMS is a simulation and training product. You agree not to use it for real-world flight planning, navigation or aircraft operation."
+        },
+        {
+          "title": "No warranty",
+          "body": "AeroFMS is provided \"as is\" without warranty of any kind. Navigation data and performance values are simplified and may be inaccurate."
+        },
+        {
+          "title": "Accounts",
+          "body": "You are responsible for your account. Accounts are optional; the emulator works without one."
+        },
+        {
+          "title": "User content",
+          "body": "You keep the rights to scenarios you create. By sharing a scenario you allow other users to view and run it. Do not share unlawful, offensive or copyrighted content you do not have rights to."
+        },
+        {
+          "title": "Trademarks",
+          "body": "Boeing, Airbus and other names are trademarks of their owners and are used only for identification. AeroFMS is not affiliated with them."
+        },
+        {
+          "title": "Changes",
+          "body": "We may update these terms; the date above shows the latest version."
+        },
+        {
+          "title": "Contact",
+          "body": "admin@heonhwi.dev"
+        }
+      ]
+    }
+  },
+  "debug": {
+    "title": "Developer tools",
+    "state": "FMS state",
+    "page": "Current page",
+    "flightPlan": "Flight plan JSON",
+    "events": "Events",
+    "navQuery": "Navigation query",
+    "adapter": "Aircraft adapter",
+    "simulation": "Simulation state",
+    "resetDb": "Reset local DB",
+    "seedScenario": "Seed scenario",
+    "seeded": "Seed scenario loaded"
+  },
+  "ads": {
+    "label": "Advertisement"
+  },
+  "remote": {
+    "updateRequired": "A newer version of AeroFMS is required.",
+    "updateAction": "Update",
+    "maintenance": "Cloud maintenance"
+  }
+}
