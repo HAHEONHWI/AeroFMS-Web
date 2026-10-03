@@ -155,9 +155,11 @@ function fplnRender(state: FmsState, ctx: RenderContext, which: PlanSel, v: Airb
         lbl,
         {
           left: [{ text: `${leg.waypoint.ident}${leg.overfly ? 'Δ' : ''}`, color: legColor, size: 'L', inverse: state.navigation.highlightedLegId === leg.id }],
-          center: [span(pred ? fmtHhmm(base + pred.etaMin * 60000) : '----', legColor, 'S')],
+          // Fixed columns under the "UTC   SPD/ALT" label: time(4) · speed(3)/ · altitude(6).
           right: [
-            span(`${spd}/`, leg.speedConstraint ? 'magenta' : legColor, leg.speedConstraint ? 'L' : 'S'),
+            span(pred ? fmtHhmm(base + pred.etaMin * 60000) : '----', legColor, 'S'),
+            span(' '),
+            span(`${spd.trim().padStart(3, ' ')}/`, leg.speedConstraint ? 'magenta' : legColor, leg.speedConstraint ? 'L' : 'S'),
             span(altText.padStart(6, ' '), leg.altitudeConstraint ? 'magenta' : legColor, leg.altitudeConstraint ? 'L' : 'S'),
           ],
         },

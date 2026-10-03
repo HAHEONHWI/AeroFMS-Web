@@ -22,6 +22,11 @@ export function applyLanguage(pref: LanguagePreference): AppLanguage {
 
 export const currentLanguage = (): AppLanguage => (i18n.language === 'ko' ? 'ko' : 'en')
 
+/** Non-hook variant of useLocalized for stores and services. */
+export function localize(text: LocalizedText | undefined): string {
+  return !text ? '' : 'key' in text ? i18n.t(text.key, text.params ?? {}) : text.text
+}
+
 /** Renders training/scenario text that is either an i18n key or literal user text. */
 export function useLocalized(): (text: LocalizedText | undefined) => string {
   const { t } = useTranslation()

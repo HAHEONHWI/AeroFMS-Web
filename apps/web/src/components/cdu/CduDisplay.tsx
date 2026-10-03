@@ -20,11 +20,15 @@ interface Run {
   inverse: boolean
 }
 
+/** Glyphs missing from IBM Plex Mono; drawn one cell at a time so a fallback font cannot shift the grid. */
+const OUTSIDE_FONT = new Set(['□', 'Δ'])
+
 function runs(cells: DisplayCell[]): Run[] {
   const out: Run[] = []
   for (const c of cells) {
     const last = out[out.length - 1]
-    if (last && last.color === c.color && last.size === c.size && last.inverse === c.inverse) last.text += c.ch
+    const single = OUTSIDE_FONT.has(c.ch)
+    if (!single && last && !OUTSIDE_FONT.has(last.text) && last.color === c.color && last.size === c.size && last.inverse === c.inverse) last.text += c.ch
     else out.push({ text: c.ch, color: c.color, size: c.size, inverse: c.inverse })
   }
   return out
@@ -66,7 +70,14 @@ export function CduDisplay({ grid, rowHeight, fontSize, onLineClick, highlighted
               <span
                 key={j}
                 className={`${COLOR_CLASS[r.color]} ${r.inverse ? 'bg-cdu-white/85 !text-cdu-screen' : ''}`}
-                style={{ fontSize: r.size === 'S' ? '0.78em' : '1em', width: `${r.text.length * 0.6}em`, display: 'inline-block', letterSpacing: 0 }}
+                // Width is in the run's own em, so small runs are scaled back to the full-size column grid.
+                style={{
+                  fontSize: r.size === 'S' ? '0.78em' : '1em',
+                  width: `${(r.text.length * 0.6) / (r.size === 'S' ? 0.78 : 1)}em`,
+                  display: 'inline-block',
+                  letterSpacing: 0,
+                  ...(OUTSIDE_FONT.has(r.text) ? { textAlign: 'center' as const, overflow: 'hidden' } : {}),
+                }}
               >
                 {r.text}
               </span>

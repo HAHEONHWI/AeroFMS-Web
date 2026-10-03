@@ -18,10 +18,12 @@ export function HomePage() {
   const navigate = useNavigate()
   const s = services()
   const sessions = useQuery({ queryKey: ['sessions', 'all'], queryFn: () => s.sessions.list() })
+  const current = useQuery({ queryKey: ['sessions', 'current'], queryFn: () => s.sessions.currentSessionId().then((id) => id ?? null) })
   const progress = useQuery({ queryKey: ['progress'], queryFn: () => s.progress.list() })
   const plans = useQuery({ queryKey: ['flightPlans'], queryFn: () => s.flightPlans.list() })
   const connector = useConnector((c) => c.status)
-  const recent = sessions.data?.[0]
+  // The open session first; otherwise the most recently updated one.
+  const recent = sessions.data?.find((x) => x.id === current.data) ?? sessions.data?.[0]
   const recentDef = recent ? s.registry.definition(recent.aircraftId) : undefined
   const quick = s.registry.list().filter((a) => a.quickStart)
   const done = new Set((progress.data ?? []).filter((p) => p.status === 'COMPLETED').map((p) => p.lessonId))

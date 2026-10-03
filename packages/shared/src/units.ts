@@ -75,6 +75,11 @@ export function formatFlightLevel(altitudeFt: number, transitionAltitudeFt = 180
   return String(Math.round(altitudeFt))
 }
 
+/** Display altitude: flight level at/above the transition altitude, otherwise feet with unit. */
+export function formatAltitude(altitudeFt: number, transitionAltitudeFt = 18000): string {
+  return altitudeFt >= transitionAltitudeFt ? formatFlightLevel(altitudeFt, transitionAltitudeFt) : `${Math.round(altitudeFt)} ft`
+}
+
 /** Formats seconds-of-day as HHMMz */
 export function formatZuluTime(epochMs: number): string {
   const d = new Date(epochMs)
@@ -85,4 +90,13 @@ export function formatZuluTime(epochMs: number): string {
 export function formatDurationHm(minutes: number): string {
   const m = Math.max(0, Math.round(minutes))
   return `${Math.floor(m / 60)}+${String(m % 60).padStart(2, '0')}`
+}
+
+/** Compact leg summary for list views: "Y711 · 18 NM · FL230". */
+export function legDetail(leg: { via?: string; calculatedDistance?: number }, predictedAltitudeFt: number | undefined, transitionAltitudeFt = 18000): string {
+  const parts: string[] = []
+  if (leg.via) parts.push(leg.via)
+  if (leg.calculatedDistance !== undefined) parts.push(`${leg.calculatedDistance < 10 ? leg.calculatedDistance.toFixed(1) : Math.round(leg.calculatedDistance)} NM`)
+  if (predictedAltitudeFt !== undefined) parts.push(formatAltitude(predictedAltitudeFt, transitionAltitudeFt))
+  return parts.join(' · ')
 }

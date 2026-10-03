@@ -363,7 +363,9 @@
     "objectives": "목표",
     "briefing": "브리핑",
     "mistakes": "실수 기록",
-    "noMistakes": "실수 없이 완료했습니다."
+    "noMistakes": "실수 없이 완료했습니다.",
+    "sessionNameLesson": "레슨 · {{title}}",
+    "sessionNameScenario": "시나리오 · {{title}}"
   },
   "mistake": {
     "title": "무엇이 문제였나요?",

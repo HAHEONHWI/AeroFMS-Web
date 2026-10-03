@@ -363,7 +363,9 @@
     "objectives": "Objectives",
     "briefing": "Briefing",
     "mistakes": "Mistakes",
-    "noMistakes": "No mistakes – well done."
+    "noMistakes": "No mistakes – well done.",
+    "sessionNameLesson": "Lesson · {{title}}",
+    "sessionNameScenario": "Scenario · {{title}}"
   },
   "mistake": {
     "title": "What happened?",

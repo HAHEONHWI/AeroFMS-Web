@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { isLeg, kgToLb, lbToKg, unitPreferences, formatFlightLevel, formatDurationHm } from '@aerofms/shared'
+import { formatDurationHm, formatFlightLevel, isLeg, kgToLb, lbToKg, legDetail, unitPreferences } from '@aerofms/shared'
 import { computeVnavProfile, displayedPerformance, displayedPlan, procedureRunways, hasModification } from '@aerofms/core'
 import type { FmsCommand, FmsState } from '@aerofms/core'
 import { Button } from '@/components/common/Button'
@@ -234,10 +234,7 @@ export function ModernView({ state }: { state: FmsState }) {
                 >
                   <button type="button" className="min-w-0 text-left" onClick={() => dispatch({ type: 'HIGHLIGHT_LEG', legId: e.id })}>
                     <span className={`cdu-font font-semibold ${active ? 'text-cdu-magenta' : 'text-fg'}`}>{e.waypoint.ident}</span>
-                    <span className="ml-2 text-xs text-fg-faint">
-                      {e.via ?? ''} {e.calculatedDistance !== undefined ? `· ${e.calculatedDistance} NM` : ''}
-                      {pred ? ` · ${formatFlightLevel(pred.altitudeFt, perf.transitionAltitudeFt ?? 18000)}` : ''}
-                    </span>
+                    <span className="ml-2 text-xs text-fg-faint">{legDetail(e, pred?.altitudeFt, perf.transitionAltitudeFt ?? 18000)}</span>
                   </button>
                   {i > 0 && e.segment !== 'ORIGIN' && !e.missed && (
                     <div className="flex gap-1">

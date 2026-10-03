@@ -147,6 +147,9 @@ export interface FlightMapProps {
   className?: string
 }
 
+/** Extra top padding keeps the route clear of the overlay buttons. */
+const FIT_PADDING = { top: 96, bottom: 48, left: 48, right: 48 }
+
 export function FlightMap({ state, nav, adapter, onSelectLeg, showAirways = true, basemap = false, className = '' }: FlightMapProps) {
   const { t } = useTranslation()
   const container = useRef<HTMLDivElement>(null)
@@ -234,7 +237,7 @@ export function FlightMap({ state, nav, adapter, onSelectLeg, showAirways = true
     const key = `${state.session.sessionId}:${displayedPlan(state).origin}:${displayedPlan(state).destination}`
     if (scene.bounds && fittedFor.current !== key) {
       fittedFor.current = key
-      map.fitBounds(scene.bounds, { padding: 48, maxZoom: 9, duration: 0 })
+      map.fitBounds(scene.bounds, { padding: FIT_PADDING, maxZoom: 9, duration: 0 })
     }
     if (follow && state.position.aircraft) map.easeTo({ center: [state.position.aircraft.lon, state.position.aircraft.lat], duration: 400 })
   }, [scene, loaded, follow, state])
@@ -255,7 +258,7 @@ export function FlightMap({ state, nav, adapter, onSelectLeg, showAirways = true
         <button
           type="button"
           className="h-9 rounded-md border border-line bg-bg-elevated/90 px-3 text-xs hover:border-accent"
-          onClick={() => scene.bounds && mapRef.current?.fitBounds(scene.bounds, { padding: 48, maxZoom: 9 })}
+          onClick={() => scene.bounds && mapRef.current?.fitBounds(scene.bounds, { padding: FIT_PADDING, maxZoom: 9 })}
         >
           {t('map.fit')}
         </button>

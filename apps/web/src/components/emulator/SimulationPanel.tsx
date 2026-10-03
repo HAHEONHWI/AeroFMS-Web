@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { isLeg, formatFlightLevel } from '@aerofms/shared'
+import { formatAltitude, isLeg } from '@aerofms/shared'
 import type { FmsState } from '@aerofms/core'
 import { Button } from '@/components/common/Button'
 import { Segmented } from '@/components/common/Form'
@@ -92,7 +92,7 @@ export function FlightDataPanel({ state }: { state: FmsState }) {
       <h2 className="mb-2 text-sm font-semibold">{t('emulator.flightData')}</h2>
       <dl className="grid grid-cols-2 gap-2 tablet:grid-cols-3">
         <Datum label={t('emulator.phase')} value={t(`phase.${state.flightPhase}`)} />
-        <Datum label={t('emulator.altitude')} value={`${formatFlightLevel(p.altitudeFt, trans)} ft`} />
+        <Datum label={t('emulator.altitude')} value={formatAltitude(p.altitudeFt, trans)} />
         <Datum label={t('emulator.groundSpeed')} value={`${Math.round(p.groundSpeedKt)} kt`} />
         <Datum label={t('emulator.airspeed')} value={`${Math.round(s.indicatedAirspeedKt)} / M${s.mach.toFixed(2)}`} />
         <Datum label={t('emulator.verticalSpeed')} value={`${s.verticalSpeedFpm > 0 ? '+' : ''}${s.verticalSpeedFpm} fpm`} />
