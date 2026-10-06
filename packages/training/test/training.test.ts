@@ -138,3 +138,33 @@ describe('Scenario training', () => {
     expect(BUILTIN_SCENARIOS.length).toBeGreaterThanOrEqual(4)
   })
 })
+
+describe('runner snapshots', () => {
+  it('restores lesson progress and counters after a restart', () => {
+    const lesson = BUILTIN_LESSONS[0]!
+    const s = session(lesson.aircraftId, lesson.setup)
+    const runner = new LessonRunner(lesson, s.adapter, nav)
+    s.observe((u) => runner.observe(u))
+    s.dispatch({ type: 'KEY', key: 'INIT_REF' })
+    s.dispatch({ type: 'LSK', lsk: '1L' }) // likely an unexpected input → counted
+    runner.takeHint()
+    const snap = JSON.parse(JSON.stringify(runner.snapshot()))
+
+    const restored = new LessonRunner(lesson, s.adapter, nav)
+    restored.restore(snap)
+    expect(restored.stepIndex).toBe(runner.stepIndex)
+    expect(restored.stepIndex).toBeGreaterThan(0)
+    expect(restored.counters.hintsUsed).toBe(1)
+    expect(restored.result().score).toBe(runner.result().score)
+  })
+
+  it('restores completed scenario objectives', () => {
+    const scenario = BUILTIN_SCENARIOS[0]!
+    const s = session(scenario.aircraftId, scenario.setup)
+    const runner = new ScenarioRunner(scenario, s.adapter, nav)
+    const first = scenario.objectives[0]!
+    runner.restore({ done: [first.id, 'unknown'], completed: false, counters: { startedAt: 0, correctInputs: 2, incorrectInputs: 1, hintsUsed: 0, mistakes: [] } })
+    expect([...runner.done]).toEqual([first.id])
+    expect(runner.snapshot().counters.correctInputs).toBe(2)
+  })
+})

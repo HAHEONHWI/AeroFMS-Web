@@ -14,12 +14,24 @@ export type TrainingFeedback =
   | { kind: 'OBJECTIVE_DONE'; objectiveId: string }
   | { kind: 'COMPLETED'; result: AttemptResult }
 
-interface Counters {
+export interface TrainingCounters {
   startedAt: number
   correctInputs: number
   incorrectInputs: number
   hintsUsed: number
   mistakes: MistakeExplanation[]
+}
+type Counters = TrainingCounters
+
+// JSON clone: counters are plain data, and structuredClone is not available on every JS engine (Hermes).
+const cloneCounters = (c: TrainingCounters): TrainingCounters => JSON.parse(JSON.stringify(c)) as TrainingCounters
+
+/** Serializable runner progress, so a lesson/scenario survives an app restart. */
+export interface RunnerSnapshot {
+  stepIndex?: number
+  done?: string[]
+  completed: boolean
+  counters: TrainingCounters
 }
 
 function scoreOf(completion: number, c: Counters): number {
@@ -50,6 +62,16 @@ export class LessonRunner {
 
   get currentStep(): LessonStep | undefined {
     return this.lesson.steps[this.stepIndex]
+  }
+
+  snapshot(): RunnerSnapshot {
+    return { stepIndex: this.stepIndex, completed: this.completed, counters: cloneCounters(this.counters) }
+  }
+
+  restore(snap: RunnerSnapshot): void {
+    this.stepIndex = Math.max(0, Math.min(this.lesson.steps.length, snap.stepIndex ?? 0))
+    this.completed = snap.completed || this.stepIndex >= this.lesson.steps.length
+    Object.assign(this.counters, cloneCounters(snap.counters))
   }
 
   /** Re-evaluates without an action (e.g. after setup) and auto-advances satisfied steps. */
@@ -154,6 +176,17 @@ export class ScenarioRunner {
       out.push({ kind: 'COMPLETED', result: this.result(now) })
     }
     return out
+  }
+
+  snapshot(): RunnerSnapshot {
+    return { done: [...this.done], completed: this.completed, counters: cloneCounters(this.counters) }
+  }
+
+  restore(snap: RunnerSnapshot): void {
+    const ids = new Set(this.scenario.objectives.map((o) => o.id))
+    for (const id of snap.done ?? []) if (ids.has(id)) this.done.add(id)
+    this.completed = snap.completed
+    Object.assign(this.counters, cloneCounters(snap.counters))
   }
 
   takeHint(): number {

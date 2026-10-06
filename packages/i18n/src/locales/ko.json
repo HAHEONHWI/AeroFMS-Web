@@ -1318,7 +1318,8 @@
     "resetLocal": "로컬 데이터 초기화",
     "resetLocalConfirm": "이 기기에 저장된 세션, 설정, 학습 진도를 모두 삭제할까요?",
     "dataManagement": "데이터",
-    "storageInfo": "로컬 저장소: 이 기기의 SQLite"
+    "storageInfo": "로컬 저장소: 이 기기의 SQLite",
+    "navDataDemoSource": "AeroFMS 학습용으로 만든 가상 데이터셋입니다. 공항 기준점은 공개된 대략적 좌표이며, 절차와 항로는 단순화한 가상 예시입니다."
   },
   "account": {
     "title": "계정",

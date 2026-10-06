@@ -43,6 +43,12 @@ export function EmulatorPage() {
   const [showSelector, setShowSelector] = useState(false)
   const [side, setSide] = useState<SideTab>('map')
 
+  // Bring back a lesson/scenario that was running in this session before the page was closed.
+  const sessionId = state?.session.sessionId
+  useEffect(() => {
+    if (sessionId) void useTraining.getState().resume(sessionId)
+  }, [sessionId])
+
   const aircraftParam = params.get('aircraft')
   const paramSwitch = aircraftParam && state && state.aircraft.aircraftId !== aircraftParam ? aircraftParam : null
 

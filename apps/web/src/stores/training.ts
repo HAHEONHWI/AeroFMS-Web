@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { LessonRunner, ScenarioRunner } from '@aerofms/training'
-import type { AttemptResult, Lesson, Scenario, TrainingFeedback } from '@aerofms/training'
+import { lessonById, LessonRunner, scenarioById, ScenarioRunner } from '@aerofms/training'
+import type { AttemptResult, Lesson, RunnerSnapshot, Scenario, TrainingFeedback } from '@aerofms/training'
 import { createId } from '@aerofms/shared'
 import { getFirebase } from '@/platform/firebase'
 import { ScenarioCloud } from '@aerofms/cloud'
@@ -27,13 +27,32 @@ interface TrainingStore {
   requestHint(): number
   dismissFeedback(): void
   stop(): void
+  /** Restores a lesson/scenario that was in progress for this session before the app restarted. */
+  resume(sessionId: string): Promise<void>
 }
 
 let unsub: (() => void) | undefined
 let unsubSession: (() => void) | undefined
 
+const SAVED_KEY = 'training.active'
+interface SavedTraining {
+  kind: 'LESSON' | 'SCENARIO'
+  refId: string
+  sessionId: string
+  cloud?: boolean
+  snapshot: RunnerSnapshot
+}
+
 export const useTraining = create<TrainingStore>((set, get) => {
+  const persist = () => {
+    const a = get().active
+    if (!a) return
+    const saved: SavedTraining = { kind: a.kind, refId: a.kind === 'LESSON' ? a.lesson.id : a.scenario.id, sessionId: a.sessionId, cloud: a.kind === 'SCENARIO' ? a.cloud : undefined, snapshot: a.runner.snapshot() }
+    void services().kv.set(SAVED_KEY, saved)
+  }
+
   const reset = () => {
+    void services().kv.delete(SAVED_KEY)
     unsub?.()
     unsub = undefined
     unsubSession?.()
@@ -56,6 +75,7 @@ export const useTraining = create<TrainingStore>((set, get) => {
       if (!fb.length) return
       const done = fb.find((f) => f.kind === 'COMPLETED')
       set({ feedback: [...get().feedback, ...fb].slice(-50), latest: fb[fb.length - 1], revision: get().revision + 1 })
+      persist()
       if (done && done.kind === 'COMPLETED') void finish(done.result)
     })
   }
@@ -64,6 +84,7 @@ export const useTraining = create<TrainingStore>((set, get) => {
     const a = get().active
     if (!a) return
     set({ result })
+    void services().kv.delete(SAVED_KEY)
     const s = services()
     if (a.kind === 'LESSON') {
       const prev = (await s.progress.list()).find((r) => r.lessonId === a.lesson.id)
@@ -117,6 +138,7 @@ export const useTraining = create<TrainingStore>((set, get) => {
       })
       set({ active: { kind: 'LESSON', lesson, runner, sessionId: st?.session.sessionId ?? '' }, feedback: [], latest: undefined, result: undefined, revision: get().revision + 1 })
       observe()
+      persist()
       track('lesson_started', { lesson_id: lesson.id, aircraft_id: lesson.aircraftId })
     },
     async startScenario(scenario, opts = {}) {
@@ -127,13 +149,37 @@ export const useTraining = create<TrainingStore>((set, get) => {
       const runner = new ScenarioRunner(scenario, adapter, s.nav)
       set({ active: { kind: 'SCENARIO', scenario, runner, cloud: !!opts.cloud, sessionId: useFms.getState().state?.session.sessionId ?? '' }, feedback: [], latest: undefined, result: undefined, revision: get().revision + 1 })
       observe()
+      persist()
       track('scenario_started', { scenario_type: scenario.builtIn ? 'builtin' : 'user', aircraft_id: scenario.aircraftId })
+    },
+    async resume(sessionId) {
+      if (get().active) return
+      const s = services()
+      const saved = await s.kv.get<SavedTraining>(SAVED_KEY)
+      if (!saved || saved.sessionId !== sessionId || saved.snapshot.completed) return
+      if (saved.kind === 'LESSON') {
+        const lesson = lessonById(saved.refId)
+        const adapter = lesson && s.registry.get(lesson.aircraftId)
+        if (!lesson || !adapter) return
+        const runner = new LessonRunner(lesson, adapter, s.nav, useSettings.getState().settings.trainingLevel)
+        runner.restore(saved.snapshot)
+        set({ active: { kind: 'LESSON', lesson, runner, sessionId }, feedback: [], latest: undefined, result: undefined, revision: get().revision + 1 })
+      } else {
+        const scenario = scenarioById(saved.refId) ?? (await s.scenarios.get(saved.refId))?.doc
+        const adapter = scenario && s.registry.get(scenario.aircraftId)
+        if (!scenario || !adapter) return
+        const runner = new ScenarioRunner(scenario, adapter, s.nav)
+        runner.restore(saved.snapshot)
+        set({ active: { kind: 'SCENARIO', scenario, runner, cloud: !!saved.cloud, sessionId }, feedback: [], latest: undefined, result: undefined, revision: get().revision + 1 })
+      }
+      observe()
     },
     requestHint() {
       const a = get().active
       if (!a) return -1
       const idx = a.kind === 'SCENARIO' ? a.runner.takeHint() : (a.runner.takeHint(), -1)
       set({ revision: get().revision + 1 })
+      persist()
       return idx
     },
     dismissFeedback() {

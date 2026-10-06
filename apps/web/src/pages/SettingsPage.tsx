@@ -85,7 +85,7 @@ export function SettingsPage() {
             <dt className="text-fg-faint">{t('settings.navDataCycle')}</dt>
             <dd className="cdu-font">{nav.meta.cycle}</dd>
             <dt className="text-fg-faint">{t('settings.navDataSource')}</dt>
-            <dd className="text-fg-muted">{nav.meta.source}</dd>
+            <dd className="text-fg-muted">{nav.meta.isDemo ? t('settings.navDataDemoSource') : nav.meta.source}</dd>
           </dl>
           <div>
             <Button

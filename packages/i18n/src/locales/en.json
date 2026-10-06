@@ -1318,7 +1318,8 @@
     "resetLocal": "Reset local data",
     "resetLocalConfirm": "Delete all local sessions, settings and progress on this device?",
     "dataManagement": "Data",
-    "storageInfo": "Local storage: SQLite on this device"
+    "storageInfo": "Local storage: SQLite on this device",
+    "navDataDemoSource": "Synthetic training dataset created for AeroFMS. Airport reference points are approximate public coordinates; procedures and airways are simplified fictional examples."
   },
   "account": {
     "title": "Account",
