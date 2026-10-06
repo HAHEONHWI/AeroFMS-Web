@@ -62,7 +62,9 @@ Platform    Web: sql.js + IndexedDB, Firebase JS SDK        Android: expo-sqlite
 
 - `packages/cloud`: 오프라인 outbox 기반 동기화, 시나리오 공유(Cloud Function이 공유 코드 발급), Remote Config(REST), Analytics 이벤트 정제(비행계획·식별자 미수집).
 - Firestore 규칙은 사용자 소유 데이터만 접근 가능하도록 제한하며 `firebase/rules-tests`로 검증합니다.
-- 계정 삭제는 `deleteAccount` Cloud Function이 사용자 데이터를 정리한 뒤 Auth 계정을 삭제합니다.
+- 시나리오 공유 코드는 소유자가 `shareCodes/{code}` 문서와 시나리오 업데이트를 한 배치로 쓰며, 보안 규칙이 두 문서가 서로를 가리키는지 확인합니다.
+- 계정 삭제는 클라이언트가 보안 규칙 아래에서 본인 소유 데이터(세션·진도·비행계획·리플레이·시나리오·응시 기록·프로필)를 모두 지운 뒤 Auth 계정을 삭제합니다. Cloud Functions 없이(Spark 플랜) 동작합니다.
+- 클라우드 리플레이는 세션 내보내기 JSON을 Firestore 문서에 그대로 저장하고, 다른 기기에서 목록을 보고 가져와 재생합니다.
 
 ## 수익화 확장 지점
 

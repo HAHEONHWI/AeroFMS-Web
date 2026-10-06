@@ -16,3 +16,4 @@ apps/connector/dist/
 
 # Local agent/editor tooling
 .claude/
+.netlify/

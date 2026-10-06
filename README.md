@@ -37,7 +37,7 @@ packages/
   i18n/         ko/en 리소스
   ui/           디자인 토큰
   cloud/        Firebase 동기화, 시나리오 클라우드, Remote Config, Analytics 정제
-firebase/       Firestore/Storage 규칙, 인덱스, Cloud Functions, 규칙 테스트
+firebase/       Firestore 규칙, 인덱스, Remote Config, (선택) Cloud Functions, 규칙 테스트
 scripts/        i18n 검사, 아이콘 생성
 docs/           아키텍처 및 확장 가이드
 ```
@@ -78,26 +78,41 @@ pnpm verify
 
 ## Netlify 배포
 
-`netlify.toml`이 저장소 루트에 있으므로 Netlify에서 저장소를 연결하면 그대로 빌드됩니다.
+운영 주소: **https://aerofms.netlify.app** (사이트 이름 `aerofms`, 팀 `heonhwi`)
 
-- Build command: `corepack enable && pnpm install --frozen-lockfile && pnpm --filter @aerofms/web build`
-- Publish directory: `apps/web/dist`
-- 환경 변수: Netlify → Site settings → Environment variables에 `VITE_FIREBASE_*` 등록
-- SPA 라우팅 리다이렉트와 보안 헤더(CSP 포함)가 설정되어 있습니다. Connector는 `ws://localhost`로 접속하므로 HTTPS 사이트에서는 같은 PC의 Connector에만 연결됩니다(LAN의 다른 PC는 Android 앱 또는 로컬 실행 웹 앱 사용).
+`netlify.toml`에 빌드 명령, SPA 리다이렉트, 보안 헤더(CSP 포함)가 정의되어 있습니다. Netlify 사이트 환경 변수에 `VITE_FIREBASE_*`가 등록되어 있습니다.
+
+- **GitHub 연동 자동 배포(권장)**: Netlify → Site configuration → Build & deploy → Link repository에서 `HAHEONHWI/AreoFMS-Web`을 연결하면 `main` 푸시마다 `netlify.toml` 기준으로 빌드·배포됩니다(비공개 저장소라 Netlify GitHub 앱 권한 승인이 필요).
+- **CLI 수동 배포**: 모노레포 감지를 피하려고 빌드 결과와 `netlify.toml`만 담은 폴더에서 배포합니다.
+
+```bash
+pnpm --filter @aerofms/web build
+```
+
+```bash
+mkdir -p /tmp/aerofms-deploy && rm -rf /tmp/aerofms-deploy/* && cp -R apps/web/dist /tmp/aerofms-deploy/dist && sed 's#publish = "apps/web/dist"#publish = "dist"#' netlify.toml > /tmp/aerofms-deploy/netlify.toml
+```
+
+```bash
+cd /tmp/aerofms-deploy && netlify deploy --prod --dir dist --site 8f1adbee-4b1a-42ab-8498-e0acd15327d4 --no-build
+```
+
+Connector는 `ws://localhost`로 접속하므로 HTTPS 사이트에서는 같은 PC의 Connector에만 연결됩니다(LAN의 다른 PC는 Android 앱 또는 로컬 실행 웹 앱 사용).
 
 ## Firebase
 
-```bash
-cd firebase/functions && npm install && npm run build
-```
+프로젝트: **`aerofms-app`** (Firestore: `asia-northeast3` 서울, 무료 Spark 플랜으로 동작)
+
+모든 클라이언트 기능(로그인, 동기화, 시나리오 공유 코드, 클라우드 리플레이, 계정 삭제)은 Firestore와 보안 규칙만으로 동작하며 Cloud Functions·Cloud Storage가 필요 없습니다.
 
 ```bash
-firebase deploy --only firestore,storage,functions
+cd firebase && firebase deploy --only firestore,remoteconfig
 ```
 
-- `firebase/.firebaserc.example`를 `.firebaserc`로 복사해 프로젝트 ID를 지정합니다.
-- Functions 리전: `asia-northeast3`. `createShareCode`, `deleteAccount`, `setUserRole`, 사용자 삭제 시 데이터 정리 트리거가 포함됩니다.
-- Remote Config 기본값: `firebase/remoteconfig.template.json` (광고는 기본 비활성).
+- `.firebaserc`의 기본 프로젝트가 `aerofms-app`입니다.
+- 클라이언트 설정: 웹은 `apps/web/.env.local`, Android는 `.env` (`.env.example` 참고, Git 제외).
+- **콘솔에서 한 번 해야 하는 일**: Authentication → 시작하기 → 이메일/비밀번호, Google 사용 설정 → 승인된 도메인에 `aerofms.netlify.app` 추가. Google 사용 설정 후 생성되는 "웹 클라이언트 ID"를 Android `.env`의 `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`에 넣으면 Android Google 로그인이 켜집니다.
+- **선택(Blaze 요금제)**: `firebase/functions`에는 관리자용 `setUserRole`(교관 권한 부여)과 콘솔에서 사용자를 지웠을 때 데이터를 정리하는 `onUserDeleted`가 있습니다. Blaze로 전환한 경우에만 `firebase deploy --only functions`.
 - 규칙 테스트(Java 21 필요):
 
 ```bash
