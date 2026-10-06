@@ -1,8 +1,6 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query, setDoc, where, addDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query, setDoc, where, addDoc, writeBatch } from 'firebase/firestore'
 import type { Firestore } from 'firebase/firestore'
-import type { Functions } from 'firebase/functions'
-import { httpsCallable } from 'firebase/functions'
-import { SHARE_CODE_PATTERN } from '@aerofms/shared'
+import { createShareCode, SHARE_CODE_PATTERN } from '@aerofms/shared'
 import { validateScenario } from '@aerofms/training'
 import type { AttemptResult, Scenario } from '@aerofms/training'
 import { COLLECTIONS } from './schema'
@@ -30,10 +28,7 @@ function fromDoc(id: string, d: ScenarioDoc): CloudScenario | null {
 
 /** Scenario sharing and instructor data in Firestore. */
 export class ScenarioCloud {
-  constructor(
-    private readonly db: Firestore,
-    private readonly functions: Functions,
-  ) {}
+  constructor(private readonly db: Firestore) {}
 
   async save(uid: string, authorName: string, scenario: Scenario): Promise<void> {
     const v = validateScenario(scenario)
@@ -58,11 +53,27 @@ export class ScenarioCloud {
     await setDoc(ref, data)
   }
 
-  /** Server assigns a unique share code (Cloud Function `createShareCode`). */
-  async share(scenarioId: string): Promise<string> {
-    const fn = httpsCallable<{ scenarioId: string }, { code: string }>(this.functions, 'createShareCode')
-    const res = await fn({ scenarioId })
-    return res.data.code
+  /**
+   * Assigns a unique share code to a scenario the caller owns. The code document and the scenario
+   * update are written in one batch; Security Rules check ownership and that both point at each other.
+   */
+  async share(uid: string, scenarioId: string): Promise<string> {
+    const ref = doc(this.db, COLLECTIONS.scenarios, scenarioId)
+    const snap = await getDoc(ref)
+    if (!snap.exists()) throw new Error('SCENARIO_NOT_FOUND')
+    const current = snap.data() as ScenarioDoc
+    if (current.shareCode) return current.shareCode
+    for (let attempt = 0; attempt < 8; attempt++) {
+      const code = createShareCode()
+      const codeRef = doc(this.db, COLLECTIONS.shareCodes, code)
+      if ((await getDoc(codeRef)).exists()) continue
+      const batch = writeBatch(this.db)
+      batch.set(codeRef, { scenarioId, ownerUid: uid, createdAt: Date.now() })
+      batch.update(ref, { shareCode: code, visibility: current.visibility === 'PRIVATE' ? 'UNLISTED' : current.visibility, updatedAt: Date.now() })
+      await batch.commit()
+      return code
+    }
+    throw new Error('SHARE_CODE_EXHAUSTED')
   }
 
   async getByCode(code: string): Promise<CloudScenario | null> {

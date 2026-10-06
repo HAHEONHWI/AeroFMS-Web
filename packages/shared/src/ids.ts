@@ -25,11 +25,19 @@ export function deterministicId(seed: string, n: number): string {
 
 const SHARE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 
+/** Uniform [0, 1) from Web Crypto when available (browsers, Node); Math.random otherwise. */
+function secureRandom(): number {
+  const c = (globalThis as { crypto?: { getRandomValues?: (a: Uint32Array) => Uint32Array } }).crypto
+  if (!c?.getRandomValues) return Math.random()
+  return c.getRandomValues(new Uint32Array(1))[0]! / 2 ** 32
+}
+
 /** Human friendly share code, e.g. AERO-7K2P9 */
-export function createShareCode(random: () => number = Math.random): string {
+export function createShareCode(random: () => number = secureRandom): string {
   let code = ''
   for (let i = 0; i < 5; i++) code += SHARE_ALPHABET[Math.floor(random() * SHARE_ALPHABET.length)]
   return `AERO-${code}`
 }
 
 export const SHARE_CODE_PATTERN = /^AERO-[A-HJ-NP-Z2-9]{5}$/
+

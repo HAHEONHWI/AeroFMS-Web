@@ -1,5 +1,4 @@
 import { getFirestore } from 'firebase-admin/firestore'
-import { getStorage } from 'firebase-admin/storage'
 import { logger } from 'firebase-functions'
 
 /**
@@ -8,7 +7,7 @@ import { logger } from 'firebase-functions'
  */
 export async function deleteUserData(uid: string): Promise<{ scenarios: number; attempts: number }> {
   const db = getFirestore()
-  // Private user tree (sessions, progress, flight plans, replay metadata).
+  // Private user tree (sessions, progress, flight plans, replays).
   await db.recursiveDelete(db.doc(`users/${uid}`))
   await db.doc(`publicProfiles/${uid}`).delete()
 
@@ -30,12 +29,6 @@ export async function deleteUserData(uid: string): Promise<{ scenarios: number; 
   const shared = await db.collection('sharedFlightPlans').where('ownerUid', '==', uid).get()
   for (const d of shared.docs) await d.ref.delete()
 
-  // Replay payloads in Cloud Storage.
-  try {
-    await getStorage().bucket().deleteFiles({ prefix: `replays/${uid}/` })
-  } catch (e) {
-    logger.warn('replay cleanup failed', { uid, error: String(e) })
-  }
   logger.info('user data deleted', { uid, scenarios: scenarios.size, attempts: attempts.size })
   return { scenarios: scenarios.size, attempts: attempts.size }
 }

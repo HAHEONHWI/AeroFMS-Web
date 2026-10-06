@@ -105,7 +105,7 @@ export const useTraining = create<TrainingStore>((set, get) => {
       const fb = getFirebase()
       const user = useAuth.getState().user
       if (a.cloud && fb && user) {
-        await new ScenarioCloud(fb.db, fb.functions).submitAttempt(a.scenario.id, user.uid, user.displayName, result).catch((e) => console.warn('attempt upload failed', e))
+        await new ScenarioCloud(fb.db).submitAttempt(a.scenario.id, user.uid, user.displayName, result).catch((e) => console.warn('attempt upload failed', e))
       }
     }
   }

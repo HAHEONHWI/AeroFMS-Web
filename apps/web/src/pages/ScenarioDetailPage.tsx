@@ -20,7 +20,7 @@ async function loadScenario(id: string, cloud: boolean): Promise<{ scenario: Sce
   if (local && !cloud) return { scenario: local.doc, source: local.source }
   const fb = getFirebase()
   if (fb) {
-    const remote = await new ScenarioCloud(fb.db, fb.functions).get(id).catch(() => null)
+    const remote = await new ScenarioCloud(fb.db).get(id).catch(() => null)
     if (remote) {
       await services().scenarios.save(remote.scenario, 'CLOUD')
       return { scenario: remote.scenario, source: 'CLOUD' }
@@ -53,10 +53,10 @@ export function ScenarioDetailPage() {
       return
     }
     try {
-      const cloud = new ScenarioCloud(fb.db, fb.functions)
+      const cloud = new ScenarioCloud(fb.db)
       const updated: Scenario = { ...scenario, visibility: scenario.visibility === 'PRIVATE' ? 'UNLISTED' : scenario.visibility, authorUid: user.uid, authorName: user.displayName }
       await cloud.save(user.uid, user.displayName, updated)
-      const code = await cloud.share(scenario.id)
+      const code = await cloud.share(user.uid, scenario.id)
       await services().scenarios.save({ ...updated, shareCode: code }, 'LOCAL')
       await navigator.clipboard?.writeText(code).catch(() => undefined)
       toast(`${t('scenarios.shareCode')}: ${code}`, 'success')
@@ -95,7 +95,7 @@ export function ScenarioDetailPage() {
             onClick={async () => {
               if (!window.confirm(t('session.deleteConfirm'))) return
               await services().scenarios.delete(scenario.id)
-              if (fb && user && scenario.authorUid === user.uid) await new ScenarioCloud(fb.db, fb.functions).remove(scenario.id).catch(() => undefined)
+              if (fb && user && scenario.authorUid === user.uid) await new ScenarioCloud(fb.db).remove(scenario.id).catch(() => undefined)
               navigate('/scenarios')
             }}
           >

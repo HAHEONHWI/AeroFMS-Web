@@ -5,10 +5,10 @@
  *  users/{uid}/aircraftSessions/{sessionId}     synced FMC sessions
  *  users/{uid}/trainingProgress/{lessonId}      lesson progress
  *  users/{uid}/flightPlans/{planId}             saved flight plans
- *  users/{uid}/replays/{replayId}               replay metadata (payload in Storage)
+ *  users/{uid}/replays/{replayId}               replays (session export JSON inline)
  *  scenarios/{scenarioId}                       user scenarios (PRIVATE / UNLISTED / PUBLIC)
  *  scenarios/{scenarioId}/attempts/{attemptId}  attempts (student + scenario owner can read)
- *  shareCodes/{code}                            code → scenarioId (written by Cloud Functions)
+ *  shareCodes/{code}                            code → scenarioId (created by the owner with the scenario update)
  *  publicProfiles/{uid}                         display name only
  *  sharedFlightPlans/{id}                       flight plans shared by link
  */
@@ -85,7 +85,7 @@ export interface ReplayDoc {
   title: string
   aircraftId: string
   actionCount: number
-  storagePath: string
+  payloadJson: string
   createdAt: number
 }
 

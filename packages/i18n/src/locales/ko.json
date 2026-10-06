@@ -1273,7 +1273,13 @@
       "ERROR": "오류",
       "MESSAGE": "메시지",
       "SIMULATION_EVENT": "시뮬레이션"
-    }
+    },
+    "cloudTitle": "클라우드 리플레이",
+    "cloudEmpty": "업로드한 리플레이가 없습니다.",
+    "import": "가져와서 재생",
+    "imported": "리플레이를 가져왔습니다",
+    "tooLarge": "리플레이가 너무 커서 업로드할 수 없습니다(약 900KB 제한).",
+    "invalid": "리플레이를 읽을 수 없습니다."
   },
   "settings": {
     "title": "설정",

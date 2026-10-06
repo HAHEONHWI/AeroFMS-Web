@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { formatRelative } from '@aerofms/i18n'
 import { createId } from '@aerofms/shared'
-import { uploadReplay } from '@aerofms/cloud'
+import { deleteCloudReplay, isSessionExportPayload, listCloudReplays, loadCloudReplay, uploadReplay } from '@aerofms/cloud'
+import type { SessionExport } from '@aerofms/core'
 import { CduFrame } from '@/components/cdu/CduFrame'
 import { FlightMap } from '@/components/map/FlightMap'
 import { EventRow } from '@/components/emulator/TimelinePanel'
@@ -43,7 +44,62 @@ export function ReplayListPage() {
           </li>
         ))}
       </ul>
+      <CloudReplays />
     </div>
+  )
+}
+
+/** Replays uploaded from any device; importing one creates a local session to play back. */
+function CloudReplays() {
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const user = useAuth((s) => s.user)
+  const fb = getFirebase()
+  const q = useQuery({ queryKey: ['cloudReplays', user?.uid], queryFn: () => (fb && user ? listCloudReplays(fb.db, user.uid) : Promise.resolve([])), enabled: !!fb && !!user })
+  if (!fb || !user) return null
+  const open = async (id: string) => {
+    try {
+      const payload = await loadCloudReplay(fb.db, user.uid, id)
+      if (!isSessionExportPayload(payload)) throw new Error(t('replay.invalid'))
+      const sessionId = await services().sessions.import(payload as unknown as SessionExport)
+      toast(t('replay.imported'), 'success')
+      navigate(`/replay/${encodeURIComponent(sessionId)}`)
+    } catch (e) {
+      toast(e instanceof Error && e.message !== 'INVALID_SESSION_FILE' ? e.message : t('replay.invalid'), 'error')
+    }
+  }
+  return (
+    <section className="mt-8">
+      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-fg-muted">{t('replay.cloudTitle')}</h2>
+      <ul className="divide-y divide-line rounded-md border border-line">
+        {q.data?.length === 0 && <li className="p-4 text-sm text-fg-muted">{t('replay.cloudEmpty')}</li>}
+        {(q.data ?? []).map((r) => (
+          <li key={r.id} className="flex flex-wrap items-center justify-between gap-2 p-4">
+            <div>
+              <p className="font-medium">{r.title}</p>
+              <p className="text-xs text-fg-faint">
+                {services().registry.definition(r.aircraftId)?.displayName} · {t('session.actions', { count: r.actionCount })} · {formatRelative(currentLanguage(), r.createdAt)}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button size="sm" variant="primary" onClick={() => void open(r.id)}>
+                {t('replay.import')}
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={async () => {
+                  await deleteCloudReplay(fb.db, user.uid, r.id)
+                  void q.refetch()
+                }}
+              >
+                {t('common.delete')}
+              </Button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
@@ -96,12 +152,12 @@ export function ReplayPage() {
               const fb = getFirebase()
               if (!fb) return
               try {
-                const actions = (await services().sessions.sessions.loadActions(id)).map((a) => a.action)
-                const baseline = ctrl.stateAt(0)
-                await uploadReplay(fb.db, fb.storage, user.uid, { id: createId('r-'), sessionId: id, title: state.session.name, aircraftId: state.aircraft.aircraftId, actionCount: actions.length, payload: { baseline, actions } })
+                const data = await services().sessions.export(id)
+                if (!data) throw new Error(t('replay.notAvailable'))
+                await uploadReplay(fb.db, user.uid, { id: createId('r-'), sessionId: id, title: state.session.name, aircraftId: state.aircraft.aircraftId, actionCount: data.actions.length, payload: data })
                 toast(t('replay.uploaded'), 'success')
               } catch (e) {
-                toast(e instanceof Error ? e.message : String(e), 'error')
+                toast(e instanceof Error && e.message === 'REPLAY_TOO_LARGE' ? t('replay.tooLarge') : e instanceof Error ? e.message : String(e), 'error')
               }
             }}
           >

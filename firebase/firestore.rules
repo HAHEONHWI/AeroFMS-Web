@@ -3,7 +3,9 @@ rules_version = '2';
 // AeroFMS Firestore Security Rules.
 // - Users can only read/write their own private data under users/{uid}.
 // - Scenarios: owner has full control; PUBLIC is listable, UNLISTED readable by id/share code.
-// - Share codes are written only by Cloud Functions (Admin SDK bypasses rules).
+// - Share codes are created by the scenario owner in the same batch as the scenario update;
+//   both documents must point at each other (works without Cloud Functions / Spark plan).
+// - Account deletion runs on the client: owners may delete everything they own.
 // - Roles come from custom claims (request.auth.token.instructor/admin), never from client data.
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -20,7 +22,7 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['displayName', 'updatedAt'])
         && str(request.resource.data.displayName, 40)
         && num(request.resource.data.updatedAt);
-      allow delete: if false;
+      allow delete: if isUser(uid);
 
       match /aircraftSessions/{sessionId} {
         allow read, delete: if isUser(uid);
@@ -52,8 +54,10 @@ service cloud.firestore {
       match /replays/{replayId} {
         allow read, delete: if isUser(uid);
         allow create: if isUser(uid)
-          && request.resource.data.keys().hasOnly(['sessionId', 'title', 'aircraftId', 'actionCount', 'storagePath', 'createdAt'])
-          && request.resource.data.storagePath == 'replays/' + uid + '/' + replayId + '.json';
+          && request.resource.data.keys().hasOnly(['sessionId', 'title', 'aircraftId', 'actionCount', 'payloadJson', 'createdAt'])
+          && str(request.resource.data.title, 80)
+          && str(request.resource.data.payloadJson, 900000)
+          && request.resource.data.actionCount is int;
       }
     }
 
@@ -62,7 +66,7 @@ service cloud.firestore {
       allow create, update: if isUser(uid)
         && request.resource.data.keys().hasOnly(['displayName', 'updatedAt'])
         && str(request.resource.data.displayName, 40);
-      allow delete: if false;
+      allow delete: if isUser(uid);
     }
 
     match /scenarios/{scenarioId} {
@@ -84,8 +88,13 @@ service cloud.firestore {
       // list: only public scenarios, or the caller's own.
       allow list: if resource.data.visibility == 'PUBLIC' || (signedIn() && resource.data.ownerUid == request.auth.uid);
       allow create: if signedIn() && validScenario() && request.resource.data.shareCode == null;
-      // shareCode can only be changed by Cloud Functions.
-      allow update: if isOwner() && validScenario() && request.resource.data.shareCode == resource.data.shareCode;
+      // shareCode is set once, together with a shareCodes/{code} document pointing back at this scenario.
+      allow update: if isOwner() && validScenario() && (
+        request.resource.data.shareCode == resource.data.shareCode
+        || (resource.data.shareCode == null
+          && request.resource.data.shareCode is string
+          && getAfter(/databases/$(database)/documents/shareCodes/$(request.resource.data.shareCode)).data.scenarioId == scenarioId
+          && getAfter(/databases/$(database)/documents/shareCodes/$(request.resource.data.shareCode)).data.ownerUid == request.auth.uid));
       allow delete: if isOwner() || isAdmin();
 
       match /attempts/{attemptId} {
@@ -104,13 +113,27 @@ service cloud.firestore {
     }
 
     match /shareCodes/{code} {
+      function target() { return request.resource.data.scenarioId; }
       allow get: if true;
-      allow list, write: if false;
+      allow list, update: if false;
+      allow create: if signedIn()
+        && code.matches('AERO-[A-HJ-NP-Z2-9]{5}')
+        && request.resource.data.keys().hasOnly(['scenarioId', 'ownerUid', 'createdAt'])
+        && request.resource.data.ownerUid == request.auth.uid
+        && target() is string
+        && get(/databases/$(database)/documents/scenarios/$(target())).data.ownerUid == request.auth.uid
+        && getAfter(/databases/$(database)/documents/scenarios/$(target())).data.shareCode == code;
+      allow delete: if signedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // A user's own attempts on any scenario (collection group query used by account deletion).
+    match /{path=**}/attempts/{attemptId} {
+      allow read, delete: if signedIn() && resource.data.uid == request.auth.uid;
     }
 
     match /sharedFlightPlans/{id} {
       allow get: if true;
-      allow list: if false;
+      allow list: if signedIn() && resource.data.ownerUid == request.auth.uid;
       allow create: if signedIn()
         && request.resource.data.keys().hasOnly(['ownerUid', 'name', 'planJson', 'createdAt'])
         && request.resource.data.ownerUid == request.auth.uid

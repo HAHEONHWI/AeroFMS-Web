@@ -16,7 +16,7 @@ export function InstructorPage() {
   const user = useAuth((s) => s.user)
   const fb = getFirebase()
   const [selected, setSelected] = useState<string | null>(null)
-  const cloud = fb ? new ScenarioCloud(fb.db, fb.functions) : null
+  const cloud = fb ? new ScenarioCloud(fb.db) : null
   const mine = useQuery({ queryKey: ['instructor', 'scenarios', user?.uid], queryFn: () => (cloud && user ? cloud.listMine(user.uid) : Promise.resolve([])), enabled: !!user?.instructor })
   const attempts = useQuery({ queryKey: ['instructor', 'attempts', selected], queryFn: () => (cloud && selected ? cloud.listAttempts(selected) : Promise.resolve([])), enabled: !!selected })
   if (!fb) return <p className="mx-auto max-w-3xl px-4 py-10 text-fg-muted">{t('common.cloudUnavailable')}</p>

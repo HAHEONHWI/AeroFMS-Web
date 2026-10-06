@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs'
-import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { assertFails, assertSucceeds, initializeTestEnvironment } from '@firebase/rules-unit-testing'
 import type { RulesTestEnvironment } from '@firebase/rules-unit-testing'
-import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where, addDoc } from 'firebase/firestore'
+import { addDoc, collection, collectionGroup, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where, writeBatch } from 'firebase/firestore'
 
 let env: RulesTestEnvironment
 
@@ -79,9 +79,62 @@ describe('scenarios', () => {
     await assertSucceeds(getDoc(doc(env.authenticatedContext('alice').firestore(), ref.path)))
     await assertFails(getDoc(doc(env.authenticatedContext('carol').firestore(), ref.path)))
   })
-  it('share codes are readable but not writable by clients', async () => {
+  it('share codes: only the owner can claim one, in the same batch as the scenario update', async () => {
+    const alice = env.authenticatedContext('alice').firestore()
     const bob = env.authenticatedContext('bob').firestore()
-    await assertFails(setDoc(doc(bob, 'shareCodes/AERO-AAAAA'), { scenarioId: 'x' }))
+    await assertSucceeds(setDoc(doc(alice, 'scenarios/sc1'), scenario('alice', 'PRIVATE')))
+    const claim = (db: typeof alice, code: string, owner: string) => {
+      const b = writeBatch(db)
+      b.set(doc(db, `shareCodes/${code}`), { scenarioId: 'sc1', ownerUid: owner, createdAt: 1 })
+      b.update(doc(db, 'scenarios/sc1'), { shareCode: code, visibility: 'UNLISTED', updatedAt: 2 })
+      return b.commit()
+    }
+    await assertFails(claim(bob, 'AERO-BBBBB', 'bob'))
+    await assertFails(setDoc(doc(alice, 'shareCodes/AERO-CCCCC'), { scenarioId: 'sc1', ownerUid: 'alice', createdAt: 1 })) // without the scenario update
+    await assertFails(claim(alice, 'BAD-CODE', 'alice'))
+    await assertSucceeds(claim(alice, 'AERO-AAAAA', 'alice'))
     await assertSucceeds(getDoc(doc(bob, 'shareCodes/AERO-AAAAA')))
+    // The code cannot be reassigned or changed afterwards.
+    await assertFails(updateDoc(doc(alice, 'scenarios/sc1'), { shareCode: 'AERO-DDDDD' }))
+    await assertFails(updateDoc(doc(alice, 'shareCodes/AERO-AAAAA'), { scenarioId: 'other' }))
+    await assertFails(deleteDoc(doc(bob, 'shareCodes/AERO-AAAAA')))
+  })
+})
+
+describe('account deletion without Cloud Functions', () => {
+  it('owner can delete everything they own, nothing else', async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      const db = ctx.firestore()
+      await setDoc(doc(db, 'users/alice'), { displayName: 'A', updatedAt: 1 })
+      await setDoc(doc(db, 'publicProfiles/alice'), { displayName: 'A', updatedAt: 1 })
+      await setDoc(doc(db, 'scenarios/bobs'), scenario('bob', 'PUBLIC'))
+      await setDoc(doc(db, 'scenarios/bobs/attempts/a1'), { uid: 'alice', score: 1 })
+      await setDoc(doc(db, 'scenarios/bobs/attempts/a2'), { uid: 'carol', score: 1 })
+      await setDoc(doc(db, 'sharedFlightPlans/p1'), { ownerUid: 'alice', name: 'x', planJson: '{}', createdAt: 1 })
+      await setDoc(doc(db, 'shareCodes/AERO-AAAAA'), { scenarioId: 'bobs', ownerUid: 'bob', createdAt: 1 })
+    })
+    const alice = env.authenticatedContext('alice').firestore()
+    const mine = await assertSucceeds(getDocs(query(collectionGroup(alice, 'attempts'), where('uid', '==', 'alice'))))
+    for (const d of mine.docs) await assertSucceeds(deleteDoc(d.ref))
+    await assertFails(deleteDoc(doc(alice, 'scenarios/bobs/attempts/a2')))
+    const plans = await assertSucceeds(getDocs(query(collection(alice, 'sharedFlightPlans'), where('ownerUid', '==', 'alice'))))
+    expect(plans.size).toBe(1)
+    await assertSucceeds(deleteDoc(doc(alice, 'sharedFlightPlans/p1')))
+    await assertSucceeds(deleteDoc(doc(alice, 'publicProfiles/alice')))
+    await assertSucceeds(deleteDoc(doc(alice, 'users/alice')))
+    await assertFails(deleteDoc(doc(alice, 'users/bob')))
+    await assertFails(deleteDoc(doc(alice, 'shareCodes/AERO-AAAAA')))
+    await assertFails(deleteDoc(doc(alice, 'scenarios/bobs')))
+  })
+})
+
+describe('cloud replays', () => {
+  it('stores the replay JSON inline for the owner only', async () => {
+    const alice = env.authenticatedContext('alice').firestore()
+    const replay = { sessionId: 's1', title: 'Flight', aircraftId: 'B737-800', actionCount: 3, payloadJson: '{"format":"aerofms-session"}', createdAt: 1 }
+    await assertSucceeds(setDoc(doc(alice, 'users/alice/replays/r1'), replay))
+    await assertFails(setDoc(doc(alice, 'users/alice/replays/r2'), { ...replay, storagePath: 'x' }))
+    await assertFails(getDoc(doc(env.authenticatedContext('bob').firestore(), 'users/alice/replays/r1')))
+    await assertSucceeds(deleteDoc(doc(alice, 'users/alice/replays/r1')))
   })
 })

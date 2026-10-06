@@ -1273,7 +1273,13 @@
       "ERROR": "Error",
       "MESSAGE": "Message",
       "SIMULATION_EVENT": "Simulation"
-    }
+    },
+    "cloudTitle": "Cloud replays",
+    "cloudEmpty": "No uploaded replays yet.",
+    "import": "Import and play",
+    "imported": "Replay imported",
+    "tooLarge": "This replay is too large to upload (about 900 KB limit).",
+    "invalid": "This replay could not be read."
   },
   "settings": {
     "title": "Settings",

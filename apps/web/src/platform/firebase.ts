@@ -4,24 +4,15 @@ import { connectAuthEmulator, getAuth } from 'firebase/auth'
 import type { Auth } from 'firebase/auth'
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
 import type { Firestore } from 'firebase/firestore'
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions'
-import type { Functions } from 'firebase/functions'
-import { connectStorageEmulator, getStorage } from 'firebase/storage'
-import type { FirebaseStorage } from 'firebase/storage'
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check'
 import { readFirebaseConfig } from '@aerofms/cloud'
 import type { AnalyticsSink, FirebaseClientConfig } from '@aerofms/cloud'
-
-/** Cloud Functions region (Seoul). Must match firebase/functions deployment. */
-export const FUNCTIONS_REGION = 'asia-northeast3'
 
 export interface FirebaseServices {
   config: FirebaseClientConfig
   app: FirebaseApp
   auth: Auth
   db: Firestore
-  functions: Functions
-  storage: FirebaseStorage
 }
 
 let services: FirebaseServices | null | undefined
@@ -41,15 +32,11 @@ export function getFirebase(): FirebaseServices | null {
   }
   const auth = getAuth(app)
   const db = getFirestore(app)
-  const functions = getFunctions(app, FUNCTIONS_REGION)
-  const storage = getStorage(app)
   if (import.meta.env.VITE_FIREBASE_USE_EMULATORS === 'true') {
     connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true })
     connectFirestoreEmulator(db, '127.0.0.1', 8080)
-    connectFunctionsEmulator(functions, '127.0.0.1', 5001)
-    connectStorageEmulator(storage, '127.0.0.1', 9199)
   }
-  services = { config, app, auth, db, functions, storage }
+  services = { config, app, auth, db }
   return services
 }
 

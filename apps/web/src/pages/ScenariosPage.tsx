@@ -44,7 +44,7 @@ export function ScenariosPage() {
   const fb = getFirebase()
   const community = useQuery({
     queryKey: ['scenarios', 'public'],
-    queryFn: () => (fb ? new ScenarioCloud(fb.db, fb.functions).listPublic() : Promise.resolve([])),
+    queryFn: () => (fb ? new ScenarioCloud(fb.db).listPublic() : Promise.resolve([])),
     enabled: !!fb && navigator.onLine,
     retry: false,
   })
@@ -60,7 +60,7 @@ export function ScenariosPage() {
       return
     }
     try {
-      const found = await new ScenarioCloud(fb.db, fb.functions).getByCode(c)
+      const found = await new ScenarioCloud(fb.db).getByCode(c)
       if (!found) {
         setCodeError(t('scenarios.codeNotFound'))
         return

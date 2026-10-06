@@ -1,16 +1,7 @@
 import { create } from 'zustand'
-import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  updateProfile,
-} from 'firebase/auth'
+import { createUserWithEmailAndPassword, deleteUser, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth'
 import type { User } from 'firebase/auth'
-import { deleteAccountInCloud, upsertProfile } from '@aerofms/cloud'
+import { deleteUserCloudData, upsertProfile } from '@aerofms/cloud'
 import { getFirebase } from '@/platform/firebase'
 
 export interface AuthUser {
@@ -106,9 +97,12 @@ export const useAuth = create<AuthStore>((set) => ({
   },
   async deleteAccount() {
     const fb = getFirebase()
-    if (!fb) throw new Error('unavailable')
-    await deleteAccountInCloud(fb.functions)
-    await signOut(fb.auth).catch(() => undefined)
+    const current = fb?.auth.currentUser
+    if (!fb || !current) throw new Error('unavailable')
+    // Cloud data first (idempotent), then the Auth user. A stale login fails with
+    // auth/requires-recent-login (account.reauthRequired); signing in again and retrying finishes the job.
+    await deleteUserCloudData(fb.db, current.uid)
+    await deleteUser(current)
     set({ user: null })
   },
 }))
